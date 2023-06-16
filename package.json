@@ -2,7 +2,7 @@
   "name": "scrabbly",
   "version": "1.0.0",
   "description": "a classic word game",
-  "main": "app/index.js",
+  "main": "app/index.ts",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
