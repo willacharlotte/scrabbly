@@ -1,0 +1,27 @@
+{
+  "name": "scrabbly",
+  "version": "1.0.0",
+  "description": "a classic word game",
+  "main": "app/index.js",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willacharlotte/scrabbly.git"
+  },
+  "keywords": [
+    "game",
+    "webapp"
+  ],
+  "author": "Willa Charlotte Lyle",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/willacharlotte/scrabbly/issues"
+  },
+  "homepage": "https://github.com/willacharlotte/scrabbly#readme"
+}
