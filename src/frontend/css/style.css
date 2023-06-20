@@ -1,111 +1,112 @@
 html {
-    /* font-size: 10px; */
-    background-color: #282C34;
+  background-color: #282C34;
 }
 
 body {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
+/* game board */
 table.board {
-    width: 600px;
-    height: 600px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background-color: #E9E9E9;
-  }
+  background-color: #b1ab90;
+  justify-self: center;
+  margin-top: 50px;
+  width: 800px;
+  table-layout: fixed;
+}
 
-  td.cell {
-    border: 1px solid #000000;
-    text-align: center;
-    font-weight: bold;
-    font-size: 18px;
-  }
+tr.board-row {
+  height: 55px;
+}
 
-  /* Colored tiles based on type */
-  .normal {
-    background-color: #FFFFFF;
-  }
+td.board-cell {
+  border: 1px solid #524330;
+  font-weight: bold;
+  vertical-align: top;
+}
 
-  .double-letter {
-    background-color: #C1EEFF;
-  }
+td.board-cell.player-one {
+  background-color: #ff00002d;
+}
 
-  .triple-letter {
-    background-color: #A0FFB7;
-  }
+td.board-cell.player-two {
+  background-color: #0400ff2d;
+}
 
-  .double-word {
-    background-color: #FFBCC1;
-  }
+td.board-cell.double-letter {
+  border: 2px solid #C1EEFF;
+}
 
-  .triple-word {
-    background-color: #FFC474;
-  }
+td.board-cell.triple-letter {
+  border: 2px solid #A0FFB7;
+}
 
-  /* Tile rack */
-  ul.rack {
-    width: 400px;
-    height: 50px;
-    margin: 20px auto;
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #E9E9E9;
-  }
+td.board-cell.double-word {
+  border: 2px solid #FFBCC1;
+}
 
-  li.tile {
-    width: 40px;
-    height: 40px;
-    margin: 0 5px;
-    background-color: #FFFFFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+td.board-cell.triple-word {
+  border: 2px solid #FFC474;
+}
 
-  .player1 .tile {
-    visibility: hidden;
-  }
+/* tile labels */
+p.type-label {
+  font-size: 10px;
+  margin: 0px 0px -12px;
+  color: #524330;
+  user-select: none;
+  text-align: end;
+}
 
-  /* Score counters */
-  .score {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20px;
-    font-size: 20px;
-  }
+p.tile-label {
+  font-size: 20px;
+  margin: 15px 0px 0px;
 
-  /* Key for tile effects */
-  .key {
-    margin-top: 20px;
-    font-size: 18px;
-  }
+  user-select: none;
+  text-align: center;
+}
 
-  .key-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-  }
+p.tile-label.player-one {
+  color: #e44f4f;
+}
 
-  .key-color {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
+p.tile-label.player-two {
+  color: #5579db;
+}
 
-  /* Additional styles for selected tiles */
-  .tile.selected {
-    border: 2px solid yellow;
-    box-shadow: 0 0 5px yellow;
-  }
+/* player racks */
+ul.rack {
+  width: 400px;
+  height: 50px;
+  margin: 20px auto;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E9E9E9;
+}
 
-  /* Additional styles for placed tiles */
-  .tile.placed {
-    opacity: 0.7;
-  }
+li.tile {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player1 .tile {
+  visibility: hidden;
+}
+
+.score {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 20px;
+}
