@@ -2,10 +2,9 @@ import {
   getSquares,
 } from './helpers/gameInterface.js';
 
-const SQUARES = await getSquares();
-
 //constants
 const BOARD_SIZE = 15;
+const SQUARES = await getSquares();
 
 //DOM elements
 const board = document.querySelector('.board');
@@ -39,6 +38,7 @@ const addTile = (td, letter) => {
   player1Turn = !player1Turn;
 };
 
+//set up game board
 for (let row = 0; row < BOARD_SIZE; row++) {
 
   const tr = document.createElement('tr');
