@@ -6,6 +6,12 @@ const port = 4000;
 
 app.use(express.json());
 
+//middleware to log all methods to console - only for testing purposes
+app.use('*', (req, _, next) => {
+  console.log(`${req.method} on ${req.originalUrl}`);
+  next();
+});
+
 //all html pages, stylesheets and scripts from the frontend
 app.use(express.static('./src/frontend', {extensions:['html']}));
 

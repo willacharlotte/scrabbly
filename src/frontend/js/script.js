@@ -1,36 +1,11 @@
+import {
+  getSquares,
+} from './helpers/gameInterface.js';
+
+const SQUARES = await getSquares();
 
 //constants
 const BOARD_SIZE = 15;
-// const RACK_SIZE = 7;
-
-const tileTypes = [
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-word', 'normal', 'normal',
-  'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'triple-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  'double-word', 'normal', 'normal', 'normal', 'normal', 'normal', 'double-word',
-  'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal',
-  'triple-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  'double-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'triple-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  'double-word', 'normal', 'normal', 'normal', 'normal', 'normal', 'double-word',
-  'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal',
-  'triple-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  'double-word', 'normal', 'normal', 'normal', 'normal', 'normal', 'double-word',
-  'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal',
-  'triple-word', 'normal', 'normal', 'triple-letter', 'normal', 'triple-letter', 'normal', 'normal', 'triple-letter', 'normal', 'triple-word',
-  'normal', 'normal', 'double-letter', 'normal', 'normal', 'normal', 'double-letter',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal',
-  ];
 
 //DOM elements
 const board = document.querySelector('.board');
@@ -39,18 +14,18 @@ const board = document.querySelector('.board');
 let player1Turn = true;
 
 //helper functions
-const abreviateType = (type) => {
+const formatType = (type) => {
   switch (type) {
-    case 'double-letter':
-      return '2L';
-    case 'triple-letter':
-      return '3L';
-    case 'double-word':
-      return '2W';
-    case 'triple-word':
-      return '3W';
+    case '2L':
+      return 'double-letter';
+    case '3L':
+      return 'triple-letter';
+    case '2W':
+      return 'double-word';
+    case '3W':
+      return 'triple-word';
     default:
-      return '';
+      return 'normal';
   }
 };
 
@@ -64,7 +39,6 @@ const addTile = (td, letter) => {
   player1Turn = !player1Turn;
 };
 
-//set up board
 for (let row = 0; row < BOARD_SIZE; row++) {
 
   const tr = document.createElement('tr');
@@ -72,19 +46,17 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 
   for (let col = 0; col < BOARD_SIZE; col++) {
 
-    const type = tileTypes[row * BOARD_SIZE + col];
+    const type = SQUARES[row * BOARD_SIZE + col].multiplier;
     const td = document.createElement('td');
 
-    if (type !== 'normal') {
+    if (type !== 'N') {
       const typeLabel = document.createElement('p');
       typeLabel.classList.add('type-label');
-      typeLabel.innerText = abreviateType(type);
+      typeLabel.innerText = type;
       td.appendChild(typeLabel);
     }
 
-
-
-    td.classList.add('board-cell', type);
+    td.classList.add('board-cell', formatType(type));
     td.addEventListener('click', () => addTile(td, 'W'));
     tr.appendChild(td);
   }
