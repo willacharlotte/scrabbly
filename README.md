@@ -18,4 +18,4 @@ run `npm install` to install dependencies
 - backend:
   - run `npm run start` in terminal to start the backend
 - frontend:
-  - idk yet lol
+  - open http://localhost:4000

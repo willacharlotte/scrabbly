@@ -1,6 +1,112 @@
 html {
-    font-size: 10px;
-    background-color: #282C34;
-    color: #ABB2BF;
+  background-color: #282C34;
 }
 
+body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* game board */
+table.board {
+  background-color: #b1ab90;
+  justify-self: center;
+  margin-top: 50px;
+  width: 800px;
+  table-layout: fixed;
+}
+
+tr.board-row {
+  height: 55px;
+}
+
+td.board-cell {
+  border: 1px solid #524330;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+td.board-cell.player-one {
+  background-color: #ff00002d;
+}
+
+td.board-cell.player-two {
+  background-color: #0400ff2d;
+}
+
+td.board-cell.double-letter {
+  border: 2px solid #C1EEFF;
+}
+
+td.board-cell.triple-letter {
+  border: 2px solid #A0FFB7;
+}
+
+td.board-cell.double-word {
+  border: 2px solid #FFBCC1;
+}
+
+td.board-cell.triple-word {
+  border: 2px solid #FFC474;
+}
+
+/* tile labels */
+p.type-label {
+  font-size: 10px;
+  margin: 0px 0px -12px;
+  color: #524330;
+  user-select: none;
+  text-align: end;
+}
+
+p.tile-label {
+  font-size: 20px;
+  margin: 15px 0px 0px;
+
+  user-select: none;
+  text-align: center;
+}
+
+p.tile-label.player-one {
+  color: #e44f4f;
+}
+
+p.tile-label.player-two {
+  color: #5579db;
+}
+
+/* player racks */
+ul.rack {
+  width: 400px;
+  height: 50px;
+  margin: 20px auto;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E9E9E9;
+}
+
+li.tile {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player1 .tile {
+  visibility: hidden;
+}
+
+.score {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 20px;
+}
