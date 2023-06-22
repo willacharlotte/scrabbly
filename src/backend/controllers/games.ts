@@ -20,7 +20,7 @@ export const getGame = (req: Request, res: Response) => {
   }
 };
 
-export const newGame = (req: Request, res: Response) => {
+export const postGame = (req: Request, res: Response) => {
   const users: User[] = req.body;
   const game = Games.postNewGame(users);
 

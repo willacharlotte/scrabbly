@@ -4,9 +4,14 @@ import {
   getTiles,
   getGame,
   getGames,
-  newGame,
+  postGame,
   putMove,
   deleteGame,
+  getUsers,
+  getUser,
+  postUser,
+  putUser,
+  deleteUser,
 } from "./controllers";
 
 const app = express();
@@ -38,9 +43,15 @@ app.get("/tiles", getTiles);
 
 app.get("/games", getGames);
 app.get("/games/:id", getGame);
-app.post("/games", newGame);
+app.post("/games", postGame);
 app.put("/games/:id/move", putMove);
 app.delete("/games/:id", deleteGame);
+
+app.get("/users", getUsers);
+app.get("/users/:username", getUser);
+app.post("/users", postUser);
+app.put("/users/:username", putUser);
+app.delete("/users/:username", deleteUser);
 
 app.listen(port, () => {
   console.log(`app listening on ${port}`);
