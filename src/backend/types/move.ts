@@ -20,7 +20,7 @@ import { Location } from "./location";
  *
  */
 export type Move = {
-  playerNumber: 1 | 2 | 3 | 4;
+  playerNumber: 0 | 1 | 2 | 3;
   turn: number;
   word: string;
   firstLetterPosition: Location;
