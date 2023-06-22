@@ -39,8 +39,12 @@ export namespace Users {
   };
 
   export const putUser = (username: string, userToPut: User) => {
-    const user = getUserByUsername(username);
-    user.games = userToPut.games;
+    if (doesUsernameExist(userToPut.username))
+      throw new Error("user with specified username already exists");
+
+    deleteUser(username);
+    users.push(userToPut);
+
     return true;
   };
 
