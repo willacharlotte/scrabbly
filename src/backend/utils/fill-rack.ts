@@ -38,7 +38,6 @@ export const fillRack = (rack: Rack, tileBag: TileBag) => {
     if (randomTile === null) break;
 
     rack.tiles.push(randomTile);
-    return rack;
   }
   return rack;
 };
