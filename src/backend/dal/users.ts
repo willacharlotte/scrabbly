@@ -8,6 +8,16 @@ export namespace Users {
     return users;
   };
 
+  export const getUsersFromBodyUsers = (bodyUsers: User[]) => {
+    const users: User[] = [];
+    bodyUsers.forEach((user) => {
+      if (!doesUsernameExist(user.username))
+        throw new Error(`user with username ${user.username} does not exist`);
+      users.push(getUserByUsername(user.username));
+    });
+    return users;
+  };
+
   export const getUserByUsername = (username: string) => {
     const user = users.find((user) => user.username === username);
     if (user === undefined)

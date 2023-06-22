@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Games } from "../dal";
+import { Games, Users } from "../dal";
 import { Move, User } from "../types";
 
 export const getGames = (_: Request, res: Response) => {
@@ -21,7 +21,7 @@ export const getGame = (req: Request, res: Response) => {
 };
 
 export const postGame = (req: Request, res: Response) => {
-  const users: User[] = req.body;
+  const users: User[] = Users.getUsersFromBodyUsers(req.body);
   const game = Games.postNewGame(users);
 
   res.end(JSON.stringify(game));
