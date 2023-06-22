@@ -38,16 +38,14 @@ export namespace Users {
     return newUser;
   };
 
-  export const putUser = (userToPut: User) => {
-    const user = getUserByUsername(userToPut.username);
+  export const putUser = (username: string, userToPut: User) => {
+    const user = getUserByUsername(username);
     user.games = userToPut.games;
     return true;
   };
 
-  export const deleteUser = (userToDel: User) => {
-    const indexOfUser = users.findIndex(
-      (user) => user.username === userToDel.username
-    );
+  export const deleteUser = (username: string) => {
+    const indexOfUser = users.findIndex((user) => user.username === username);
     if (indexOfUser === -1) throw new Error("user does not exist");
 
     users.splice(indexOfUser, 1);
