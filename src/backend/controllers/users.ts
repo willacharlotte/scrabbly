@@ -21,9 +21,16 @@ export const getUser = (req: Request, res: Response) => {
 
 export const postUser = (req: Request, res: Response) => {
   const { username } = req.body;
-  const user = Users.postNewUser(username);
+  try {
+    const user = Users.postNewUser(username);
+    res.end(JSON.stringify(user));
+  } catch (e) {
+    let message = "";
+    if (e instanceof Error) message = e.message;
 
-  res.end(JSON.stringify(user));
+    res.status(400);
+    res.end(message);
+  }
 };
 
 export const putUser = (req: Request, res: Response) => {
