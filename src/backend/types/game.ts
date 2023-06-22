@@ -2,7 +2,8 @@ import { Move } from "./move";
 
 /**
  * @type Game
- * @field players {index{number}: string} index being either 1, 2, 3 or 4 in starting order.
+ * @field players {index{number}: string} index being either 1, 2, 3 or 4 in starting
+ * order and the value being the username of the player
  * @field moves {Move[]} list of moves made in the game
  */
 export type Game = {
