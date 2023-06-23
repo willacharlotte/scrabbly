@@ -23,6 +23,7 @@ export const createNewGame = (users: User[], gameId: number): Game => {
     id: gameId,
     players: players,
     moves: [],
+    placedTiles: [],
     tiles: tileBag,
   };
 };
