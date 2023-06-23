@@ -38,9 +38,14 @@ export namespace Games {
 
   export const putMoveInGame = (id: number, move: Move) => {
     const game = getGameById(id);
-    game.moves.push(move);
 
     const newPlacedTiles = newPlacedTilesFromMove(move);
+
+    if (
+      move.firstLetterLocation.col.toUpperCase() ===
+      move.firstLetterLocation.col
+    )
+      throw new Error("firstLetterLocation needs to have a lower case col");
 
     game.players[move.playerNumber].rack = updateRack(
       newPlacedTiles,
@@ -48,6 +53,7 @@ export namespace Games {
       game.tiles
     );
 
+    game.moves.push(move);
     game.placedTiles.push(...newPlacedTiles);
 
     return game;
