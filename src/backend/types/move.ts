@@ -23,7 +23,7 @@ export type Move = {
   playerNumber: 0 | 1 | 2 | 3;
   turn: number;
   word: string;
-  firstLetterPosition: Location;
+  firstLetterLocation: Location;
   direction: "DOWN" | "ACROSS";
   score: number;
   cumulativeScore: number;
