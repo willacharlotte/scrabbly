@@ -7,3 +7,4 @@ export { Game } from "./game";
 export { User } from "./user";
 export { TileBag } from "./tile-bag";
 export { Rack } from "./rack";
+export { PlacedTile } from "./placed-tile";
