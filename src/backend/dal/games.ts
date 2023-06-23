@@ -1,5 +1,5 @@
 import { Game, Move, User } from "../types";
-import { createNewGame } from "../utils";
+import { createNewGame, newPlacedTilesFromMove, updateRack } from "../utils";
 
 export namespace Games {
   // TODO put this in db
@@ -39,6 +39,16 @@ export namespace Games {
   export const putMoveInGame = (id: number, move: Move) => {
     const game = getGameById(id);
     game.moves.push(move);
+
+    const newPlacedTiles = newPlacedTilesFromMove(move);
+
+    game.players[move.playerNumber].rack = updateRack(
+      newPlacedTiles,
+      game.players[move.playerNumber].rack,
+      game.tiles
+    );
+
+    game.placedTiles.push(...newPlacedTiles);
 
     return game;
   };
