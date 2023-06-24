@@ -131,3 +131,6 @@ dist
 
 # tsc output
 dist/
+
+#local storage
+store
