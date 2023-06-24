@@ -1,4 +1,4 @@
-# Scrabbl
+# Scrabbly
 
 ### A classic word creation game
 
