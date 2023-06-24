@@ -8,7 +8,7 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "start": "tsc && nodemon dist/backend/app.js",
+    "start": "nodemon --exec 'tsc && node ./dist/backend/app.js' -i ./dist/ -e .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
