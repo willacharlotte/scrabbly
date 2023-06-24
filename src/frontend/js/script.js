@@ -11,12 +11,24 @@ const TILES = await getTiles();
 
 //DOM elements
 const board = document.querySelector('.board');
+const confirmButton = document.getElementById('confirm-word');
 const playerOneRack = document.querySelector('.rack-row.player-one');
 const playerTwoRack = document.querySelector('.rack-row.player-two');
 
+const playerOneRackCells = [];
+const playerOneRackTiles = [];
+const playerTwoRackCells = [];
+const playerTwoRackTiles = [];
+
+confirmButton.addEventListener('click', () => {
+  playerOneTurn = !playerOneTurn;
+  console.log(playerOneTurn);
+});
+
 //state trackers
-let player1Turn = true;
+let playerOneTurn = true;
 let numTilesRemaining = 100;
+let selectedRackCellIndex = -1;
 
 //helper functions
 const formatType = (type) => {
@@ -34,14 +46,30 @@ const formatType = (type) => {
   }
 };
 
-const addTile = (td, letter) => {
-  const tile = document.createElement('p');
-  tile.classList.add('tile-label', player1Turn ? 'player-one' : 'player-two');
-  tile.innerText = letter;
-  td.appendChild(tile);
-  td.classList.add(player1Turn ? 'player-one' : 'player-two');
+const removeTileFromRack = (index) => {
+  if (playerOneTurn) {
+    playerOneRackCells[index].classList.remove('selected');
+    playerOneRackCells[index].classList.add('inactive');
+    playerOneRackCells[index].innerText = '';
+  } else {
+    playerTwoRackCells[index].classList.remove('selected');
+    playerTwoRackCells[index].classList.add('inactive');
+    playerTwoRackCells[index].innerText = '';
+  }
+};
 
-  player1Turn = !player1Turn;
+const moveTileToBoard = (td) => {
+  if (selectedRackCellIndex === -1) {
+    return;
+  }
+  const tile = document.createElement('p');
+  tile.classList.add('tile-label', playerOneTurn ? 'player-one' : 'player-two');
+  tile.innerText = playerOneTurn ? playerOneRackTiles[selectedRackCellIndex].innerText : playerTwoRackTiles[selectedRackCellIndex].innerText;
+  td.appendChild(tile);
+  td.classList.add(playerOneTurn ? 'player-one' : 'player-two');
+
+  removeTileFromRack(selectedRackCellIndex);
+  selectedRackCellIndex = -1;
 };
 
 const getRandomTile = () => {
@@ -67,6 +95,41 @@ const getRandomTile = () => {
   return '';
 };
 
+const selectRackCell = (index, playerOne) => {
+
+  if (playerOne !== playerOneTurn) {
+    return;
+  }
+
+  if (selectedRackCellIndex != -1) {
+    playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
+  }
+
+  if (playerOneTurn ? playerOneRackCells[index].classList.contains('inactive') : playerTwoRackCells[index].classList.contains('inactive')) {
+    return;
+  }
+
+  playerOneTurn ? playerOneRackCells[index].classList.add('selected') : playerTwoRackCells[index].classList.add('selected');
+
+  selectedRackCellIndex = index;
+};
+
+const fillRack = (index, playerOne) => {
+  const rackCell = document.createElement('td');
+  const rackTile = document.createElement('p');
+
+  rackTile.classList.add('tile-label', `player-${playerOne ? 'one' : 'two'}`);
+  rackTile.innerText = getRandomTile();
+  rackCell.appendChild(rackTile);
+  rackCell.classList.add(`player-${playerOne ? 'one' : 'two'}`);
+  rackCell.addEventListener('click', () => selectRackCell(index, playerOne));
+
+  playerOne ? playerOneRack.appendChild(rackCell) : playerTwoRack.appendChild(rackCell);
+
+  playerOne ? playerOneRackCells.push(rackCell) : playerTwoRackCells.push(rackCell);
+  playerOne ? playerOneRackTiles.push(rackTile) : playerTwoRackTiles.push(rackTile);
+};
+
 //set up game board
 for (let row = 0; row < BOARD_SIZE; row++) {
 
@@ -86,7 +149,7 @@ for (let row = 0; row < BOARD_SIZE; row++) {
     }
 
     boardCell.classList.add('board-cell', formatType(type));
-    boardCell.addEventListener('click', () => addTile(boardCell, 'W'));
+    boardCell.addEventListener('click', () => moveTileToBoard(boardCell));
     boardRow.appendChild(boardCell);
   }
   board.appendChild(boardRow);
@@ -94,23 +157,6 @@ for (let row = 0; row < BOARD_SIZE; row++) {
 
 //set up player racks
 for (let tile = 0; tile < RACK_SIZE; tile++) {
-  const playerOneRackCell = document.createElement('td');
-  const playerOneTile = document.createElement('p');
-
-  playerOneTile.classList.add('tile-label', 'player-one');
-  playerOneTile.innerText = getRandomTile();
-  playerOneRackCell.appendChild(playerOneTile);
-  playerOneRackCell.classList.add('player-one');
-
-  playerOneRack.appendChild(playerOneRackCell);
-
-  const playerTwoRackCell = document.createElement('td');
-  const playerTwoTile = document.createElement('p');
-
-  playerTwoTile.classList.add('tile-label', 'player-two');
-  playerTwoTile.innerText = getRandomTile();
-  playerTwoRackCell.appendChild(playerTwoTile);
-  playerTwoRackCell.classList.add('player-two');
-
-  playerTwoRack.appendChild(playerTwoRackCell);
+  fillRack(tile, true);
+  fillRack(tile, false);
 }

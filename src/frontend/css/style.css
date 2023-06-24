@@ -39,6 +39,14 @@ td.player-two {
   background-color: #0400ff2d;
 }
 
+td.selected {
+  background-color: #ffd90081;
+}
+
+td.inactive {
+  background-color: #b1ab90;
+}
+
 td.board-cell.double-letter {
   border: 2px solid #C1EEFF;
 }
