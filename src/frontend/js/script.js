@@ -24,10 +24,19 @@ const playerOneRackTiles = [];
 const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
 
+//event listeners
 confirmButton.addEventListener('click', () => {
 
-  for (const cell of placingBoardCells) {
-    cell.classList.remove('placing');
+  for (const index in placingBoardCells) {
+    placingBoardCells[index].classList.remove('placing');
+
+    placingTiles[index].classList.remove('placing');
+    placingRackCells[index].classList.remove('inactive');
+    placingTiles[index].innerText = getRandomTile();
+  }
+
+  if (selectedRackCellIndex !== -1) {
+    playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 
   placingBoardCells.length = 0;
@@ -133,7 +142,7 @@ const selectRackCell = (index, playerOne) => {
     return;
   }
 
-  if (selectedRackCellIndex != -1) {
+  if (selectedRackCellIndex !== -1) {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 
