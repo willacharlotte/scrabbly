@@ -87,7 +87,7 @@ const getRandomTile = () => {
         ...TILES[index],
         amount: TILES[index].amount - 1,
       };
-      return TILES[index].letter;
+      return (TILES[index].letter).toUpperCase();
     }
     tileNumber -= TILES[index].amount;
   }
