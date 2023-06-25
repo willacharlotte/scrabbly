@@ -12,17 +12,43 @@ const TILES = await getTiles();
 //DOM elements
 const board = document.querySelector('.board');
 const confirmButton = document.getElementById('confirm-word');
+const clearButton = document.getElementById('clear-button');
 const playerOneRack = document.querySelector('.rack-row.player-one');
 const playerTwoRack = document.querySelector('.rack-row.player-two');
 
+const placingBoardCells = [];
+const placingRackCells = [];
+const placingTiles = [];
 const playerOneRackCells = [];
 const playerOneRackTiles = [];
 const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
 
 confirmButton.addEventListener('click', () => {
+
+  for (const cell of placingBoardCells) {
+    cell.classList.remove('placing');
+  }
+
+  placingBoardCells.length = 0;
+  placingRackCells.length = 0;
+  placingTiles.length = 0;
   playerOneTurn = !playerOneTurn;
-  console.log(playerOneTurn);
+});
+
+clearButton.addEventListener('click', () => {
+
+  for (const index in placingBoardCells) {
+    placingBoardCells[index].classList.remove('placing', 'player-one', 'player-two');
+    placingBoardCells[index].removeChild(placingBoardCells[index].lastChild);
+
+    placingTiles[index].classList.remove('placing');
+    placingRackCells[index].classList.remove('inactive');
+  }
+
+  placingBoardCells.length = 0;
+  placingRackCells.length = 0;
+  placingTiles.length = 0;
 });
 
 //state trackers
@@ -50,11 +76,16 @@ const removeTileFromRack = (index) => {
   if (playerOneTurn) {
     playerOneRackCells[index].classList.remove('selected');
     playerOneRackCells[index].classList.add('inactive');
-    playerOneRackCells[index].innerText = '';
+    playerOneRackTiles[index].classList.add('placing');
+    placingTiles.push(playerOneRackTiles[index]);
+    placingRackCells.push(playerOneRackCells[index]);
+
   } else {
     playerTwoRackCells[index].classList.remove('selected');
     playerTwoRackCells[index].classList.add('inactive');
-    playerTwoRackCells[index].innerText = '';
+    playerTwoRackTiles[index].classList.add('placing');
+    placingTiles.push(playerTwoRackTiles[index]);
+    placingRackCells.push(playerTwoRackCells[index]);
   }
 };
 
@@ -66,7 +97,8 @@ const moveTileToBoard = (td) => {
   tile.classList.add('tile-label', playerOneTurn ? 'player-one' : 'player-two');
   tile.innerText = playerOneTurn ? playerOneRackTiles[selectedRackCellIndex].innerText : playerTwoRackTiles[selectedRackCellIndex].innerText;
   td.appendChild(tile);
-  td.classList.add(playerOneTurn ? 'player-one' : 'player-two');
+  td.classList.add('placing', playerOneTurn ? 'player-one' : 'player-two');
+  placingBoardCells.push(td);
 
   removeTileFromRack(selectedRackCellIndex);
   selectedRackCellIndex = -1;
