@@ -1,7 +1,7 @@
 CREATE DATABASE Scrabble
 GO
 
-USE Scrabble 
+USE Scrabbly
 GO
 
 CREATE TABLE Player(
@@ -16,7 +16,6 @@ GO
 CREATE TABLE Game(
 gameId int unique not null,
 gameState varchar(50),
-score int,
 startTime time,
 endTime time,
 PRIMARY KEY(gameId)
@@ -27,6 +26,7 @@ CREATE TABLE PlayerGame(
 playerGameId int unique not null,
 playerId int,
 gameId int,
+score int,
 PRIMARY KEY (playerGameId),
 FOREIGN KEY (gameId) References Game (gameId),
 FOREIGN KEY (playerId) References Player (playerId),
