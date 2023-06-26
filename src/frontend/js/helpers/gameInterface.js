@@ -1,14 +1,14 @@
 
-async function callBackend(route) {
+async function fetchFromBackend(route) {
   const response = await fetch(route);
   const responseJson = await response.json();
   return responseJson;
 };
 
 export async function getTiles() {
-  return await callBackend('/tiles');
+  return await fetchFromBackend('/tiles');
 }
 
 export async function getSquares() {
-  return await callBackend('/squares');
+  return await fetchFromBackend('/squares');
 }
