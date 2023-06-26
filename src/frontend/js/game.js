@@ -1,6 +1,7 @@
 import {
   getSquares,
   getTiles,
+  getGame,
 } from './helpers/gameInterface.js';
 
 //constants
@@ -8,6 +9,8 @@ const BOARD_SIZE = 15;
 const RACK_SIZE = 7;
 const SQUARES = await getSquares();
 const TILES = await getTiles();
+const urlParams = new URLSearchParams(window.location.search);
+const GAME_ID = urlParams.get('id');
 
 //DOM elements
 const board = document.querySelector('.board');
@@ -25,6 +28,12 @@ const playerOneRackCells = [];
 const playerOneRackTiles = [];
 const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
+
+//state trackers
+let playerOneTurn = true;
+let numTilesRemaining = 100;
+let selectedRackCellIndex = -1;
+let scores = [0, 0];
 
 //event listeners
 confirmButton.addEventListener('click', () => {
@@ -71,12 +80,6 @@ clearButton.addEventListener('click', () => {
   placingRackCells.length = 0;
   placingTiles.length = 0;
 });
-
-//state trackers
-let playerOneTurn = true;
-let numTilesRemaining = 100;
-let selectedRackCellIndex = -1;
-let scores = [0, 0];
 
 //helper functions
 const calculateTileScore = (letter, multiplier) => {
@@ -225,33 +228,49 @@ const fillRack = (index, playerOne) => {
   playerOne ? playerOneRackTiles.push(rackTile) : playerTwoRackTiles.push(rackTile);
 };
 
-//set up game board
-for (let row = 0; row < BOARD_SIZE; row++) {
+const initBoard = () => {
+  for (let row = 0; row < BOARD_SIZE; row++) {
 
-  const boardRow = document.createElement('tr');
-  boardRow.classList.add('board-row');
+    const boardRow = document.createElement('tr');
+    boardRow.classList.add('board-row');
 
-  for (let col = 0; col < BOARD_SIZE; col++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
 
-    const type = SQUARES[row * BOARD_SIZE + col].multiplier;
-    const boardCell = document.createElement('td');
+      const type = SQUARES[row * BOARD_SIZE + col].multiplier;
+      const boardCell = document.createElement('td');
 
-    if (type !== 'N') {
-      const typeLabel = document.createElement('p');
-      typeLabel.classList.add('type-label');
-      typeLabel.innerText = type;
-      boardCell.appendChild(typeLabel);
+      if (type !== 'N') {
+        const typeLabel = document.createElement('p');
+        typeLabel.classList.add('type-label');
+        typeLabel.innerText = type;
+        boardCell.appendChild(typeLabel);
+      }
+
+      boardCell.classList.add('board-cell', formatType(type));
+      boardCell.addEventListener('click', () => moveTileToBoard(boardCell));
+      boardRow.appendChild(boardCell);
     }
-
-    boardCell.classList.add('board-cell', formatType(type));
-    boardCell.addEventListener('click', () => moveTileToBoard(boardCell));
-    boardRow.appendChild(boardCell);
+    board.appendChild(boardRow);
   }
-  board.appendChild(boardRow);
-}
+};
 
-//set up player racks
-for (let tile = 0; tile < RACK_SIZE; tile++) {
-  fillRack(tile, true);
-  fillRack(tile, false);
+const initRacks = () => {
+  for (let tile = 0; tile < RACK_SIZE; tile++) {
+    fillRack(tile, true);
+    fillRack(tile, false);
+  }
+};
+
+//set up game
+if (!!GAME_ID) {
+
+  const x = await getGame(GAME_ID);
+
+  console.log(x);
+
+  initBoard();
+  initRacks();
+} else {
+  initBoard();
+  initRacks();
 }

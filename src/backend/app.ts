@@ -46,7 +46,7 @@ app.get("/home", function (_, res) {
 });
 
 //game page
-app.get("/game", function (_, res) {
+app.get("/game/*", function (_, res) {
   res.sendFile("game.html", {
     root: "./src/frontend/html",
     extensions: ["html"],

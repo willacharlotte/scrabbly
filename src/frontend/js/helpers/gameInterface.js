@@ -12,3 +12,8 @@ export async function getTiles() {
 export async function getSquares() {
   return await fetchFromBackend('/squares');
 }
+
+export async function getGame(id) {
+  console.log(`/games/${id}`);
+  return await fetchFromBackend(`/games/${id}`);
+}
