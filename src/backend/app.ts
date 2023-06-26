@@ -25,11 +25,27 @@ app.use("*", (req, _, next) => {
   next();
 });
 
-//all html pages, stylesheets and scripts from the frontend
+//all stylesheets and scripts from the frontend
 app.use(express.static("./src/frontend", { extensions: ["html"] }));
 
 //root page
 app.get("/", function (_, res) {
+  res.sendFile("home.html", {//TODO: switch to login.html once done
+    root: "./src/frontend/html",
+    extensions: ["html"],
+  });
+});
+
+//home page
+app.get("/home", function (_, res) {
+  res.sendFile("home.html", {
+    root: "./src/frontend/html",
+    extensions: ["html"],
+  });
+});
+
+//game page
+app.get("/game", function (_, res) {
   res.sendFile("game.html", {
     root: "./src/frontend/html",
     extensions: ["html"],
@@ -52,6 +68,14 @@ app.get("/users/:username", getUser);
 app.post("/users", postUser);
 app.put("/users/:username", putUser);
 app.delete("/users/:username", deleteUser);
+
+//any other routes go here
+app.get("*", function (_, res) {
+  res.sendFile("error.html", {
+    root: "./src/frontend/html",
+    extensions: ["html"],
+  });
+});
 
 app.listen(port, () => {
   console.log(`app listening on ${port}`);
