@@ -8,9 +8,8 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "build": "cp .env ./dist/.env && tsc",
-    "start": "npm run build && node ./dist/backend/app.js",
-    "start:prod": "tsc && node ./dist/backend/app.js",
+    "build": "tsc && cp .env ./dist/.env",
+    "start": "tsc && node ./dist/backend/app.js",
     "start:dev": "nodemon --exec 'npm run build && node ./dist/backend/app.js' -i ./dist/ -e .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
