@@ -13,6 +13,7 @@ import {
   putUser,
   deleteUser,
 } from "./controllers";
+import { DbConnection } from "./dal/db-connection";
 
 const app = express();
 const port = 4000;
@@ -52,6 +53,13 @@ app.get("/users/:username", getUser);
 app.post("/users", postUser);
 app.put("/users/:username", putUser);
 app.delete("/users/:username", deleteUser);
+
+// DELETE THIS
+app.get("/test", async (_, res) => {
+  res.end(
+    JSON.stringify(await DbConnection.runQuery(`SELECT * FROM dbo.Player`))
+  );
+});
 
 app.listen(port, () => {
   console.log(`app listening on ${port}`);
