@@ -8,9 +8,9 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "cp .env ./dist/.env && tsc",
     "start": "npm run build && node ./dist/backend/app.js",
-    "start:dev": "nodemon --exec 'tsc && node ./dist/backend/app.js' -i ./dist/ -e .ts",
+    "start:dev": "nodemon --exec 'npm run build && node ./dist/backend/app.js' -i ./dist/ -e .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/willacharlotte/scrabbly#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mssql": "^9.1.1",
     "nodemon": "^2.0.22",
