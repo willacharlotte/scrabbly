@@ -27,6 +27,9 @@ const playerTwoRackTiles = [];
 //event listeners
 confirmButton.addEventListener('click', () => {
 
+  const score = calculateWordScore();
+  alert(`You scored ${score} points!`);
+
   for (const index in placingBoardCells) {
     placingBoardCells[index].classList.remove('placing');
 
@@ -66,6 +69,47 @@ let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
 
 //helper functions
+const calculateTileScore = (letter, multiplier) => {
+  for (const tile of TILES) {
+    if (tile.letter.toUpperCase() === letter) {
+      if (multiplier === '2L') {
+        return tile.points * 2;
+      }
+      if (multiplier === '3L') {
+        return tile.points * 3;
+      }
+      return tile.points;
+    }
+  }
+  return 0;
+};
+
+const calculateWordScore = () => {
+  let score = 0;
+  let multiplier = 1;
+  for (const cell of placingBoardCells) {
+    let cellType = '';
+    for (const child of cell.children) {
+
+      if (child.classList.contains('type-label')) {
+
+        if (child.innerText === '2W') {
+          multiplier = 2;
+        } else if (child.innerText === '3W') {
+          multiplier = 3;
+        }
+        cellType = child.innerText;
+
+      } else if (child.classList.contains('tile-label')) {
+
+        score += calculateTileScore(child.innerText, cellType);
+
+      }
+    }
+  }
+  return score * multiplier;
+};
+
 const formatType = (type) => {
   switch (type) {
     case '2L':
