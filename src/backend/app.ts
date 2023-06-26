@@ -30,7 +30,7 @@ app.use(express.static("./src/frontend", { extensions: ["html"] }));
 
 //root page
 app.get("/", function (_, res) {
-  res.sendFile("index.html", {
+  res.sendFile("game.html", {
     root: "./src/frontend/html",
     extensions: ["html"],
   });
