@@ -13,6 +13,8 @@ const TILES = await getTiles();
 const board = document.querySelector('.board');
 const confirmButton = document.getElementById('confirm-word');
 const clearButton = document.getElementById('clear-button');
+const playerOneScoreLabel = document.getElementById('player-one-score');
+const playerTwoScoreLabel = document.getElementById('player-two-score');
 const playerOneRack = document.querySelector('.rack-row.player-one');
 const playerTwoRack = document.querySelector('.rack-row.player-two');
 
@@ -28,7 +30,14 @@ const playerTwoRackTiles = [];
 confirmButton.addEventListener('click', () => {
 
   const score = calculateWordScore();
-  alert(`You scored ${score} points!`);
+  // alert(`You scored ${score} points!`);
+  if (playerOneTurn) {
+    scores[0] += score;
+    playerOneScoreLabel.innerText = `Score: ${scores[0]} points`;
+  } else {
+    scores[1] += score;
+    playerTwoScoreLabel.innerText = `Score: ${scores[1]} points`;
+  }
 
   for (const index in placingBoardCells) {
     placingBoardCells[index].classList.remove('placing');
@@ -67,6 +76,7 @@ clearButton.addEventListener('click', () => {
 let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
+let scores = [0, 0];
 
 //helper functions
 const calculateTileScore = (letter, multiplier) => {
