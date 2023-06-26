@@ -12,25 +12,114 @@ const TILES = await getTiles();
 //DOM elements
 const board = document.querySelector('.board');
 const confirmButton = document.getElementById('confirm-word');
+const clearButton = document.getElementById('clear-button');
+const playerOneScoreLabel = document.getElementById('player-one-score');
+const playerTwoScoreLabel = document.getElementById('player-two-score');
 const playerOneRack = document.querySelector('.rack-row.player-one');
 const playerTwoRack = document.querySelector('.rack-row.player-two');
 
+const placingBoardCells = [];
+const placingRackCells = [];
+const placingTiles = [];
 const playerOneRackCells = [];
 const playerOneRackTiles = [];
 const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
 
+//event listeners
 confirmButton.addEventListener('click', () => {
+
+  const score = calculateWordScore();
+  // alert(`You scored ${score} points!`);
+  if (playerOneTurn) {
+    scores[0] += score;
+    playerOneScoreLabel.innerText = `Score: ${scores[0]} points`;
+  } else {
+    scores[1] += score;
+    playerTwoScoreLabel.innerText = `Score: ${scores[1]} points`;
+  }
+
+  for (const index in placingBoardCells) {
+    placingBoardCells[index].classList.remove('placing');
+
+    placingTiles[index].classList.remove('placing');
+    placingRackCells[index].classList.remove('inactive');
+    placingTiles[index].innerText = getRandomTile();
+  }
+
+  if (selectedRackCellIndex !== -1) {
+    playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
+  }
+
+  placingBoardCells.length = 0;
+  placingRackCells.length = 0;
+  placingTiles.length = 0;
   playerOneTurn = !playerOneTurn;
-  console.log(playerOneTurn);
+});
+
+clearButton.addEventListener('click', () => {
+
+  for (const index in placingBoardCells) {
+    placingBoardCells[index].classList.remove('placing', 'player-one', 'player-two');
+    placingBoardCells[index].removeChild(placingBoardCells[index].lastChild);
+
+    placingTiles[index].classList.remove('placing');
+    placingRackCells[index].classList.remove('inactive');
+  }
+
+  placingBoardCells.length = 0;
+  placingRackCells.length = 0;
+  placingTiles.length = 0;
 });
 
 //state trackers
 let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
+let scores = [0, 0];
 
 //helper functions
+const calculateTileScore = (letter, multiplier) => {
+  for (const tile of TILES) {
+    if (tile.letter.toUpperCase() === letter) {
+      if (multiplier === '2L') {
+        return tile.points * 2;
+      }
+      if (multiplier === '3L') {
+        return tile.points * 3;
+      }
+      return tile.points;
+    }
+  }
+  return 0;
+};
+
+const calculateWordScore = () => {
+  let score = 0;
+  let multiplier = 1;
+  for (const cell of placingBoardCells) {
+    let cellType = '';
+    for (const child of cell.children) {
+
+      if (child.classList.contains('type-label')) {
+
+        if (child.innerText === '2W') {
+          multiplier = 2;
+        } else if (child.innerText === '3W') {
+          multiplier = 3;
+        }
+        cellType = child.innerText;
+
+      } else if (child.classList.contains('tile-label')) {
+
+        score += calculateTileScore(child.innerText, cellType);
+
+      }
+    }
+  }
+  return score * multiplier;
+};
+
 const formatType = (type) => {
   switch (type) {
     case '2L':
@@ -50,11 +139,16 @@ const removeTileFromRack = (index) => {
   if (playerOneTurn) {
     playerOneRackCells[index].classList.remove('selected');
     playerOneRackCells[index].classList.add('inactive');
-    playerOneRackCells[index].innerText = '';
+    playerOneRackTiles[index].classList.add('placing');
+    placingTiles.push(playerOneRackTiles[index]);
+    placingRackCells.push(playerOneRackCells[index]);
+
   } else {
     playerTwoRackCells[index].classList.remove('selected');
     playerTwoRackCells[index].classList.add('inactive');
-    playerTwoRackCells[index].innerText = '';
+    playerTwoRackTiles[index].classList.add('placing');
+    placingTiles.push(playerTwoRackTiles[index]);
+    placingRackCells.push(playerTwoRackCells[index]);
   }
 };
 
@@ -66,7 +160,8 @@ const moveTileToBoard = (td) => {
   tile.classList.add('tile-label', playerOneTurn ? 'player-one' : 'player-two');
   tile.innerText = playerOneTurn ? playerOneRackTiles[selectedRackCellIndex].innerText : playerTwoRackTiles[selectedRackCellIndex].innerText;
   td.appendChild(tile);
-  td.classList.add(playerOneTurn ? 'player-one' : 'player-two');
+  td.classList.add('placing', playerOneTurn ? 'player-one' : 'player-two');
+  placingBoardCells.push(td);
 
   removeTileFromRack(selectedRackCellIndex);
   selectedRackCellIndex = -1;
@@ -101,7 +196,7 @@ const selectRackCell = (index, playerOne) => {
     return;
   }
 
-  if (selectedRackCellIndex != -1) {
+  if (selectedRackCellIndex !== -1) {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 

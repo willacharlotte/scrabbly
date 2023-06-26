@@ -1,5 +1,6 @@
 html {
   background-color: #282C34;
+  color: #ffffff;
 }
 
 body {
@@ -47,6 +48,10 @@ td.inactive {
   background-color: #b1ab90;
 }
 
+td.placing {
+  background-color: #00ff0079;
+}
+
 td.board-cell.double-letter {
   border: 2px solid #C1EEFF;
 }
@@ -86,4 +91,8 @@ p.tile-label.player-one {
 
 p.tile-label.player-two {
   color: #5579db;
+}
+
+p.tile-label.placing {
+  display: none;
 }
