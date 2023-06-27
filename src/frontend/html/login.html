@@ -17,9 +17,9 @@
         <h2>Login</h2>
         <form id="login-form" action="" method="post">
           <label for="login-username"><h3>Username</h3></label>
-          <input id="login-username" type="text" name="username" />
+          <input id="login-username" type="text" name="username" required />
           <label for="login-password"><h3>Password</h3></label>
-          <input id="login-password" type="text" name="password" />
+          <input id="login-password" type="password" name="password" required />
           <h3>
             <button type="submit"><label>Submit</label></button>
           </h3>
@@ -29,11 +29,21 @@
         <h2>Register</h2>
         <form id="register-form" action="" method="post">
           <label for="register-username"><h3>Username</h3></label>
-          <input id="register-username" type="text" name="username" />
+          <input id="register-username" type="text" name="username" required />
           <label for="register-password"><h3>Password</h3></label>
-          <input id="register-password" type="text" name="password" />
+          <input
+            id="register-password"
+            type="password"
+            name="password"
+            required
+          />
           <label for="register-password"><h3>Password (again)</h3></label>
-          <input id="register-password" type="text" name="password-verify" />
+          <input
+            id="register-password-verify"
+            type="password"
+            name="password-verify"
+            required
+          />
           <h3>
             <button type="submit"><label>Submit</label></button>
           </h3>
