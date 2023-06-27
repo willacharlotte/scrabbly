@@ -1,5 +1,5 @@
 import express from "express";
-import bearer from "../../backend/service/middleware/verify-bearer";
+import bearer from "../../identityServer/middleware/verify-token";
 
 export const authenticationRoute = express.Router();
 

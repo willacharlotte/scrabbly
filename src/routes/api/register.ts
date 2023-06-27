@@ -1,5 +1,5 @@
 import express from "express";
-import createCredentialsHandler from "../../backend/service/handlers/register.js";
+import createCredentialsHandler from "../../identityServer/handlers/register";
 
 export const registerRoute = express.Router();
 
