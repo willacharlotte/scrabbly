@@ -3,3 +3,22 @@ body {
   flex-direction: column;
   margin-top: 200px;
 }
+
+h1 {
+  font-size: 64px;
+  margin-bottom: 60px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #61AEEF;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+button:hover {
+  background-color: #4598D3;
+}
