@@ -1,4 +1,4 @@
-CREATE DATABASE Scrabble
+CREATE DATABASE Scrabbly
 GO
 
 USE Scrabbly
