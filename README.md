@@ -21,7 +21,7 @@
 ## Running
 
 - backend:
-  - run `npm run start` in terminal to start the backend
+  - run `npm run build` then `npm run start` in terminal to start the backend
 - frontend:
   - open http://localhost:4000
 
