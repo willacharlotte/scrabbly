@@ -1,0 +1,19 @@
+body {
+  flex-direction: column;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-content: space-around;
+}
+
+main section#register-section {
+  grid-column-start: 3;
+}
+
+main section#login-section {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}

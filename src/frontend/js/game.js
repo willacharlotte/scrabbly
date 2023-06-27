@@ -264,10 +264,6 @@ const initRacks = () => {
 //set up game
 if (!!GAME_ID) {
 
-  const x = await getGame(GAME_ID);
-
-  console.log(x);
-
   initBoard();
   initRacks();
 } else {
