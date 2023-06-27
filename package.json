@@ -2,14 +2,14 @@
   "name": "scrabbly",
   "version": "1.0.0",
   "description": "a classic word game",
-  "main": "src/backend/service/index.ts",
+  "main": "src/identityServer/server.ts",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
   "scripts": {
     "build": "tsc && cp .env ./dist/.env",
-    "start": "tsc && node ./dist/backend/app.js",
+    "start": "tsc && node ./dist/identityServer/server.js",
     "start:dev": "nodemon --exec 'npm run build && node ./dist/backend/app.js' -i ./dist/ -e .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
