@@ -2,7 +2,7 @@ import * as sql from "mssql";
 import { ENV } from "../utils";
 
 export namespace DbConnection {
-  export const config: sql.config = {
+  const config: sql.config = {
     user: ENV.MSSQL_USER,
     password: ENV.MSSQL_PASS,
     server: ENV.MSSQL_SERVER || "",
@@ -20,14 +20,6 @@ export namespace DbConnection {
    * { queryParam: key of the parameter, paramType: mssql.ISqlType type of the paramter, value: value to insert }
    * @returns promise containing an mssql.IResult object
    */
-  export const connectDB = async () => {
-    try {
-      const connection = await sql.connect(config);
-      return connection;
-    } catch (err){
-      console.log(err);
-    }
-  }
   export const runQuery = async (
     query: string,
     ...queryParams: {
