@@ -29,9 +29,18 @@ app.use("*", (req, _, next) => {
 //all stylesheets and scripts from the frontend
 app.use(express.static("./src/frontend", { extensions: ["html"] }));
 
+// login page
+app.get("/login", function (_, res) {
+  res.sendFile("login.html", {
+    root: "./src/frontend/html",
+    extensions: ["html"],
+  });
+});
+
 //root page
 app.get("/", function (_, res) {
-  res.sendFile("home.html", {//TODO: switch to login.html once done
+  res.sendFile("home.html", {
+    //TODO: switch to login.html once done
     root: "./src/frontend/html",
     extensions: ["html"],
   });
