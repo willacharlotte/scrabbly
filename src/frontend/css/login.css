@@ -17,3 +17,7 @@ main section#login-section {
   grid-column-start: 1;
   grid-column-end: 3;
 }
+
+.submit {
+  margin-top: 15px;
+}
