@@ -53,7 +53,7 @@ confirmButton.addEventListener('click', () => {
   //TODO: putMove
 
   for (const index in placingBoardCells) {
-    placingBoardCells[index].classList.remove('placing');
+    placingBoardCells[index].cell.classList.remove('placing');
 
     placingTiles[index].classList.remove('placing');
     placingRackCells[index].classList.remove('inactive');
@@ -73,8 +73,8 @@ confirmButton.addEventListener('click', () => {
 clearButton.addEventListener('click', () => {
 
   for (const index in placingBoardCells) {
-    placingBoardCells[index].classList.remove('placing', 'player-one', 'player-two');
-    placingBoardCells[index].removeChild(placingBoardCells[index].lastChild);
+    placingBoardCells[index].cell.classList.remove('placing', 'player-one', 'player-two');
+    placingBoardCells[index].cell.removeChild(placingBoardCells[index].cell.lastChild);
 
     placingTiles[index].classList.remove('placing');
     placingRackCells[index].classList.remove('inactive');
@@ -104,9 +104,9 @@ const calculateTileScore = (letter, multiplier) => {
 const calculateWordScore = () => {
   let score = 0;
   let multiplier = 1;
-  for (const cell of placingBoardCells) {
+  for (const index in placingBoardCells) {
     let cellType = '';
-    for (const child of cell.children) {
+    for (const child of placingBoardCells[index].cell.children) {
 
       if (child.classList.contains('type-label')) {
 
@@ -159,7 +159,7 @@ const removeTileFromRack = (index) => {
   }
 };
 
-const moveTileToBoard = (td) => {
+const moveTileToBoard = (td, index) => {
   if (selectedRackCellIndex === -1) {
     return;
   }
@@ -168,7 +168,10 @@ const moveTileToBoard = (td) => {
   tile.innerText = playerOneTurn ? playerOneRackTiles[selectedRackCellIndex].innerText : playerTwoRackTiles[selectedRackCellIndex].innerText;
   td.appendChild(tile);
   td.classList.add('placing', playerOneTurn ? 'player-one' : 'player-two');
-  placingBoardCells.push(td);
+  placingBoardCells.push({
+    index,
+    cell: td,
+  });
 
   removeTileFromRack(selectedRackCellIndex);
   selectedRackCellIndex = -1;
@@ -251,7 +254,7 @@ const initBoard = () => {
       }
 
       boardCell.classList.add('board-cell', formatType(type));
-      boardCell.addEventListener('click', () => moveTileToBoard(boardCell));
+      boardCell.addEventListener('click', () => moveTileToBoard(boardCell, row * BOARD_SIZE + col));
       boardRow.appendChild(boardCell);
     }
     board.appendChild(boardRow);
