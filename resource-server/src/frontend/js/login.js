@@ -1,56 +1,76 @@
+import {
+  createCredentials,
+  exchangeCredentials,
+} from "./helpers/identity-access";
+
 const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+const badLogin = document.getElementById("bad-login");
+const userExists = document.getElementById("user-exists");
+const badRegister = document.getElementById("bad-register");
+
+const login = async (user, pass) => {
+  const data = {
+    from: "username-password",
+    to: "bearer",
+    username: user,
+    password: pass,
+  };
+
+  const res = await exchangeCredentials(data);
+
+  switch (res.status) {
+    case 200:
+      const body = await res.json();
+      window.sessionStorage.token = body.token;
+      window.sessionStorage.tokenExpiry = body.expiresAt;
+      setTimeout(() => {
+        window.location.href = "/home";
+      }, 1000);
+      break;
+    case 401:
+      badLogin.classList.remove("hidden");
+  }
+};
+
+const register = async (user, pass) => {
+  const data = {
+    type: "username-password",
+    username: user,
+    password: pass,
+  };
+
+  const res = await createCredentials(data);
+
+  switch (res.status) {
+    case 201:
+      const body = await res.json();
+      const uuid = body.id;
+      // post to back end??
+      return true;
+    case 409:
+      userExists.classList.remove("hidden");
+      return false;
+    case 400:
+      badRegister.classList.remove("hidden");
+      return false;
+  }
+  return false;
+};
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
 
-  const data = {
-    username: formData.get("username"),
-    password: formData.get("password"),
-  };
-
-  // const token = await fetch("/token", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(data),
-  // });
-
-  // validation !!
-
-  const token = "gg";
-
-  window.sessionStorage.token = token;
-
-  setTimeout(() => {
-    window.location.href = "/home";
-  }, 1000);
+  await login(formData.get("username"), formData.get("password"));
 });
-
-const registerForm = document.getElementById("register-form");
 
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
 
-  const data = {
-    username: formData.get("username"),
-    password: formData.get("password"),
-  };
+  const user = formData.get("username");
+  const pass = formData.get("password");
 
-  // const token = await fetch("/token", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(data),
-  // }).then((res) => res.json());
-
-  const token = "gg";
-
-  window.sessionStorage.token = token;
-  setTimeout(() => {
-    window.location.href = "/home";
-  }, 1000);
+  if (await register(user, pass)) await login(user, pass);
 });
