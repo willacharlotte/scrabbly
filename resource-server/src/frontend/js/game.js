@@ -32,6 +32,7 @@ const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
 
 //state trackers
+let turnCounter = 1;
 let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
@@ -68,6 +69,7 @@ confirmButton.addEventListener('click', () => {
   placingRackCells.length = 0;
   placingTiles.length = 0;
   playerOneTurn = !playerOneTurn;
+  turnCounter += 1;
 });
 
 clearButton.addEventListener('click', () => {

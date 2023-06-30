@@ -16,9 +16,14 @@ button {
   color: #FFFFFF;
   border: none;
   cursor: pointer;
-  margin-bottom: 25px;
+  /* margin-bottom: 25px; */
 }
 
 button:hover {
   background-color: #4598D3;
+}
+
+.games-list {
+  list-style: none;
+  margin-right: 40px;
 }
