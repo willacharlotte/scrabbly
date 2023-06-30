@@ -8,9 +8,7 @@ export const createCredentials = async (data) => {
     },
     body: JSON.stringify(data),
   };
-  return await fetch(IDENTITY_SERVER + "/create-credentials", options).then(
-    (res) => res.json()
-  );
+  return await fetch(IDENTITY_SERVER + "/create-credentials", options);
 };
 
 export const exchangeCredentials = async (data) => {
@@ -21,7 +19,5 @@ export const exchangeCredentials = async (data) => {
     },
     body: JSON.stringify(data),
   };
-  return await fetch(IDENTITY_SERVER + "/exchange-credentials", options).then(
-    (res) => res.json()
-  );
+  return await fetch(IDENTITY_SERVER + "/exchange-credentials", options);
 };
