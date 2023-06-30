@@ -8,7 +8,6 @@ export const getGames = (_: Request, res: Response) => {
 
 export const getGame = (req: Request, res: Response) => {
   const gameId = req.params.id;
-  console.log(gameId);
   try {
     const game = Games.getGameById(Number(gameId));
     res.end(JSON.stringify(game));

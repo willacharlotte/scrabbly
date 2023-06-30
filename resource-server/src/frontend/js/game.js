@@ -3,6 +3,7 @@ import {
   getTiles,
   getGame,
   postGame,
+  putMove,
 } from './helpers/gameInterface.js';
 
 //constants
@@ -48,6 +49,8 @@ confirmButton.addEventListener('click', () => {
     scores[1] += score;
     playerTwoScoreLabel.innerText = `Score: ${scores[1]} points`;
   }
+
+  //TODO: putMove
 
   for (const index in placingBoardCells) {
     placingBoardCells[index].classList.remove('placing');
@@ -267,15 +270,16 @@ if (!!GAME_ID) {
 
   //load game
 
+  //TODO: getGame
+
   initBoard();
   initRacks();
 } else {
 
   //create new game
 
-  // const res = await postGame();
-  // console.log(res);
-
   initBoard();
   initRacks();
+
+  //TODO: postGame
 }

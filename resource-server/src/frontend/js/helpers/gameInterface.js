@@ -35,3 +35,29 @@ export async function postGame() {
   const responseJson = await response.json();
   return responseJson;
 }
+
+//TODO: send correct move info
+export async function putMove(id) {
+  const response = await fetch(`/games/${id}/move`, {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(
+      {
+        "playerNumber": 1,
+        "turn": 1,
+        "word": "(W)ORD",
+        "firstLetterPosition": {
+            "row": 8,
+            "col": "B"
+        },
+        "direction": "DOWN",
+        "score": 4,
+        "cumulativeScore": 5
+    }),
+  });
+
+  const responseJson = await response.json();
+  return responseJson;
+}

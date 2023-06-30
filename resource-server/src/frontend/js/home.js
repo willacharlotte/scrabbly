@@ -11,3 +11,5 @@ newGameButton.addEventListener('click', () => {
 loadGameButton.addEventListener('click', () => {
   window.location = '/game/?id=0';
 });
+
+//TODO: list of users games
