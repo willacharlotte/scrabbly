@@ -13,7 +13,7 @@
 
 ## Setup
 
-- run `npm install` to install dependencies
+- run `npm install && npm run install:identity && npm run install:resource` to install dependencies
 - connect to a MSSQL instance and run `src/db/dbScripts.sql` to create database and tables
 - run `cp .env.example .env` to create env
 - populate `.env` variables with relevant values
