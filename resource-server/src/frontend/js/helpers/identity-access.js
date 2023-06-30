@@ -1,4 +1,8 @@
-const IDENTITY_SERVER = "http://localhost:8080";
+
+//TODO: these methods should be moved to the backend to avoid sharing the identity server url
+
+const response = await fetch("/identity_server");
+const IDENTITY_SERVER = await response.json();
 
 export const createCredentials = async (data) => {
   const options = {
