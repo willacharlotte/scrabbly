@@ -17,25 +17,23 @@ export async function getGame(id) {
   return await fetchFromBackend(`/games/${id}`);
 }
 
-//TODO: update to send current user (endpoint should also be updated to only accept one user - use token or something?)
-export async function postGame() {
+//TODO: get user token
+export async function postGame(token) {
   const response = await fetch('/games', {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
     },
-    body: JSON.stringify(
-      [
-        {"username":"name","games":[]},
-        {"username":"another","games":[]}
-      ]),
+    body: JSON.stringify({
+      token,
+    }),
   });
 
   const responseJson = await response.json();
   return responseJson;
 }
 
-//TODO: send correct move info
+//TODO: replace example data
 export async function putMove(id) {
   const response = await fetch(`/games/${id}/move`, {
     method: "PUT",
@@ -44,16 +42,15 @@ export async function putMove(id) {
     },
     body: JSON.stringify(
       {
-        "playerNumber": 1,
-        "turn": 1,
-        "word": "(W)ORD",
-        "firstLetterPosition": {
-            "row": 8,
-            "col": "B"
-        },
-        "direction": "DOWN",
-        "score": 4,
-        "cumulativeScore": 5
+        turn: 3,//needed?
+        score: 5,
+        placedTiles: [
+          {
+            letter: 'a',
+            location: 165,
+            playerOne: true//needed?
+          }
+        ]
     }),
   });
 
