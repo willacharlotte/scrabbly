@@ -3,6 +3,9 @@ import { usersRoute } from "./routes/api/users";
 import { gamesRoute } from "./routes/api/games";
 import { boardRoute } from "./routes/api/board";
 import { DbConnection } from "./dal/db-connection.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = 4000;
@@ -56,6 +59,13 @@ app.get("/game/*", function (_, res) {
 app.use("/", boardRoute);
 app.use("/", usersRoute);
 app.use("/", gamesRoute);
+
+//TODO: remove once methods on frontend are moved to backend
+app.get("/identity_server", async (_, res) => {
+  res.end(
+    JSON.stringify(process.env.IDENTITY_SERVER || "http://localhost:8080")
+    );
+});
 
 // DELETE THIS
 app.get("/test", async (_, res) => {
