@@ -1,4 +1,4 @@
-const IDENTITY_SERVER = "http://localhost:8080/";
+const IDENTITY_SERVER = "http://localhost:8080";
 
 export const createCredentials = async (data) => {
   const options = {
