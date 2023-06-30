@@ -5,6 +5,7 @@ export const createCredentials = async (data) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify(data),
   };
@@ -16,6 +17,7 @@ export const exchangeCredentials = async (data) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify(data),
   };

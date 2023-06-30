@@ -1,8 +1,5 @@
 const passwordRegister = document.getElementById("register-password");
-const passwordRegisterVerify = document.getElementById(
-  "register-password-verify"
-);
-const passwordLogin = document.getElementById("login-password");
+const passwordVerify = document.getElementById("register-password-verify");
 
 const checkPassword = (password) => {
   if (password.length < 8) return false;
@@ -16,34 +13,28 @@ const checkPassword = (password) => {
   const hasUpperLetters = password.search(upperLetters) > -1;
   const hasSymbols =
     password
-      .replace(numbers, "")
-      .replace(lowerLetters, "")
-      .replace(upperLetters, "") > 0;
+      .replaceAll(numbers, "")
+      .replaceAll(lowerLetters, "")
+      .replaceAll(upperLetters, "").length > 0;
 
   return hasNumbers + hasLowerLetters + hasUpperLetters + hasSymbols >= 3;
 };
 
 const validateRegisterPassword = () => {
-  if (checkPassword(passwordRegister.value))
-    passwordRegisterVerify.setCustomValidity(
+  if (!checkPassword(passwordRegister.value)) {
+    passwordRegister.setCustomValidity(
       "Password length should be greater than 8 " +
         "and contain at least 3 of the following 4 sets: " +
         "numbers, uppercase letters, lowercase letters and symbols"
     );
-  if (passwordRegister.value != passwordRegisterVerify.value)
-    passwordRegisterVerify.setCustomValidity("Passwords don't match");
-  else passwordRegisterVerify.setCustomValidity("");
+  } else passwordRegister.setCustomValidity("");
 };
 
-const validateLoginPassword = () => {
-  if (checkPassword(passwordRegister.value))
-    passwordRegisterVerify.setCustomValidity(
-      "Password length should be greater than 8 " +
-        "and contain at least 3 of the following 4 sets: " +
-        "numbers, uppercase letters, lowercase letters and symbols"
-    );
-  else passwordRegisterVerify.setCustomValidity("");
+const validateVerifyPassword = () => {
+  if (passwordVerify.value != passwordRegister.value) {
+    passwordVerify.setCustomValidity("Passwords don't match");
+  } else passwordVerify.setCustomValidity("");
 };
 
-passwordRegister.onchange = validateRegisterPassword;
-passwordRegisterVerify.onkeyup = validateRegisterPassword;
+passwordRegister.addEventListener("change", validateRegisterPassword);
+passwordVerify.addEventListener("keyup", validateVerifyPassword);

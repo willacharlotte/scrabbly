@@ -1,7 +1,7 @@
 import {
   createCredentials,
   exchangeCredentials,
-} from "./helpers/identity-access";
+} from "./helpers/identity-access.js";
 
 const loginForm = document.getElementById("login-form");
 const registerForm = document.getElementById("register-form");

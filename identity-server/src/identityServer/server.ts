@@ -8,8 +8,11 @@ import { exchangeCredentialsRoute } from "../routes/api/credentials";
 import { authenticationRoute } from "../routes/api/authentication";
 
 import verifyToken from "./middleware/verify-token";
+import { corsOptions } from "../config/corsOptions";
+import cors from 'cors';
 
 const app = express();
+app.use(cors(corsOptions));
 const port = 8080;
 
 // handle credentials before cors
