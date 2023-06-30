@@ -31,7 +31,7 @@ async function verify(request: Request, response: Response, next: NextFunction) 
        // No key information to compare to, will be true if using local storage should be fine when using db
       return response.sendStatus(401);
   }
-  const verified = await new Promise(
+  const verified: any = await new Promise(
        resolve => JSONWebToken.verify(
            request.token!,
            keyInformation.publicKey,
@@ -50,11 +50,11 @@ async function verify(request: Request, response: Response, next: NextFunction) 
       return response.sendStatus(403); //invalid token
   }
   // Add our identity to the request
-  // if (request.user) {
-  //   request.user = {
-  //       id:  verified.sub,
-  //   };
-  // }
+  if (request.user) {
+    request.user = {
+        id:  verified.sub,
+    };
+  }
   
   next(undefined);
 }
