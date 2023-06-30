@@ -2,6 +2,13 @@ import JSONWebToken, { VerifyErrors } from "jsonwebtoken";
 import bearerToken from "express-bearer-token";
 import { Request, Response, NextFunction} from "express";
 
+
+declare module 'express' {
+  interface Request {
+    user?: any;
+  }
+}
+
 async function verify(request: Request, response: Response, next: NextFunction) {
     
     if (!request.token) {
