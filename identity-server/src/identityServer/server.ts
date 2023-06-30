@@ -1,7 +1,7 @@
 // import ttl from "level-ttl";
 import express from "express";
 import { Level } from "level";
-import cookieParser from "cookie-parser";
+// import cookieParser from "cookie-parser";
 
 import { registerRoute } from "../routes/api/register";
 import { exchangeCredentialsRoute } from "../routes/api/credentials";
@@ -16,7 +16,7 @@ const port = 8080;
 // app.use(credentials);
 
 // middleware for cookies
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // serve static files
 
