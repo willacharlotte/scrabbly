@@ -2,6 +2,7 @@ import {
   getSquares,
   getTiles,
   getGame,
+  postGame,
 } from './helpers/gameInterface.js';
 
 //constants
@@ -264,9 +265,17 @@ const initRacks = () => {
 //set up game
 if (!!GAME_ID) {
 
+  //load game
+
   initBoard();
   initRacks();
 } else {
+
+  //create new game
+
+  // const res = await postGame();
+  // console.log(res);
+
   initBoard();
   initRacks();
 }
