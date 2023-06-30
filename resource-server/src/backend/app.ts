@@ -1,24 +1,14 @@
 import express from "express";
-import {
-  getSquares,
-  getTiles,
-  getGame,
-  getGames,
-  postGame,
-  putMove,
-  deleteGame,
-  getUsers,
-  getUser,
-  postUser,
-  putUser,
-  deleteUser,
-} from "./controllers";
-import { DbConnection } from "./dal/db-connection";
+import { usersRoute } from "./routes/api/users";
+import { gamesRoute } from "./routes/api/games";
+import { boardRoute } from "./routes/api/board";
+import { DbConnection } from "./dal/db-connection.js";
 
 const app = express();
 const port = 4000;
 
 app.use(express.json());
+// app.use(cors(corsOptions));
 
 //middleware to log all methods to console - only for testing purposes
 app.use("*", (req, _, next) => {
@@ -62,22 +52,10 @@ app.get("/game/*", function (_, res) {
   });
 });
 
-// backend methods
-
-app.get("/squares", getSquares);
-app.get("/tiles", getTiles);
-
-app.get("/games", getGames);
-app.get("/games/:id", getGame);
-app.post("/games", postGame);
-app.put("/games/:id/move", putMove);
-app.delete("/games/:id", deleteGame);
-
-app.get("/users", getUsers);
-app.get("/users/:username", getUser);
-app.post("/users", postUser);
-app.put("/users/:username", putUser);
-app.delete("/users/:username", deleteUser);
+// backend routes
+app.use("/", boardRoute);
+app.use("/", usersRoute);
+app.use("/", gamesRoute);
 
 // DELETE THIS
 app.get("/test", async (_, res) => {
