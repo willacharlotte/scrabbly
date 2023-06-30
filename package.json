@@ -1,0 +1,23 @@
+{
+  "name": "scrabbly",
+  "version": "1.0.0",
+  "description": "a word creation game",
+  "main": "./resource-server/src/backend/app.ts",
+  "scripts": {
+    "install:identity": "npm install --prefix ./identity-server",
+    "install:resource": "npm install --prefix ./resource-server",
+    "start:identity": "cd ./identity-server && npm run start",
+    "start:resource": "cd ./resource-server && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willacharlotte/scrabbly.git"
+  },
+  "author": "Willa Charlotte Lyle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willacharlotte/scrabbly/issues"
+  },
+  "homepage": "https://github.com/willacharlotte/scrabbly#readme"
+}
