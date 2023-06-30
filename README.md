@@ -14,7 +14,7 @@
 ## Setup
 
 - run `npm install` to install dependencies
-- connect to a MSSQL instance and run `src/db/dbScripts.sql` to create database and tables
+- connect to a MSSQL instance and run `resource-server/src/db/dbScripts.sql` to create database and tables
 - run `cp .env.example .env` to create env
 - populate `.env` variables with relevant values
 
