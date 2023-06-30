@@ -1,5 +1,5 @@
 html {
-  background-color: #282C34;
+  background-color: #282c34;
   color: #ffffff;
 }
 
@@ -7,4 +7,8 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.hidden {
+  display: none;
 }

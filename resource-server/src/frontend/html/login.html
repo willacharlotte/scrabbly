@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scrabbly - Login</title>
+    <script
+      src="../js/helpers/validate-passwords.js"
+      type="module"
+      defer
+    ></script>
     <script src="../js/login.js" type="module" defer></script>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/login.css" />
@@ -20,9 +25,12 @@
           <input id="login-username" type="text" name="username" required />
           <label for="login-password"><h3>Password</h3></label>
           <input id="login-password" type="password" name="password" required />
-          <br>
+          <br />
           <input class="submit" type="submit" value="Submit" />
         </form>
+        <h3 id="bad-login" class="hidden access-error">
+          Username or password incorrect!
+        </h3>
       </section>
       <section id="register-section">
         <h2>Register</h2>
@@ -36,16 +44,24 @@
             name="password"
             required
           />
-          <label for="register-password"><h3>Password (again)</h3></label>
+          <label for="register-password-verify"
+            ><h3>Password (again)</h3></label
+          >
           <input
             id="register-password-verify"
             type="password"
             name="password-verify"
             required
           />
-          <br>
+          <br />
           <input class="submit" type="submit" value="Submit" />
         </form>
+        <h3 id="user-exists" class="hidden access-error">
+          Username already exists!
+        </h3>
+        <h3 id="bad-register" class="hidden access-error">
+          Username is empty or password failed validation
+        </h3>
       </section>
     </main>
   </body>

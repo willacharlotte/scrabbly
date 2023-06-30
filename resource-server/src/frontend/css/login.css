@@ -21,3 +21,7 @@ main section#login-section {
 .submit {
   margin-top: 15px;
 }
+
+.access-error {
+  color: #e06c75;
+}

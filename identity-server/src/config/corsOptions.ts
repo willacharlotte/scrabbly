@@ -1,5 +1,5 @@
 // list of sites allowed to access backend
-const whitelist = ['https://www.google.com', 'http://localhost:8080'];
+const whitelist = ['https://www.google.com', 'http://localhost:4000'];
 
 export const corsOptions = {
   origin: (origin:any, callback:any) => {
