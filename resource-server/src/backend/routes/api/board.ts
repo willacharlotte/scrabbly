@@ -3,7 +3,7 @@ import express from "express";
 import {
     getSquares,
     getTiles,
-  } from "../../backend/controllers";
+  } from "../../controllers";
 
   export const boardRoute = express.Router();
 

@@ -6,7 +6,7 @@ import {
     postUser,
     putUser,
     deleteUser,
-  } from "../../backend/controllers";
+  } from "../../controllers";
 
 export const usersRoute = express.Router();
 

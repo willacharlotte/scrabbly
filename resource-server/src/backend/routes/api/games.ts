@@ -6,7 +6,7 @@ import {
     postGame,
     putMove,
     deleteGame,
-  } from "../../backend/controllers";
+  } from "../../controllers";
 
 export const gamesRoute = express.Router();
 

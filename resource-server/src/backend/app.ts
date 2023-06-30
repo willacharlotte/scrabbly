@@ -1,9 +1,7 @@
 import express from "express";
-// import cors from "cors";
-import {corsOptions} from "../config/corsOptions"
-import {usersRoute} from "../routes/api/users";
-import { gamesRoute } from "../routes/api/games";
-import { boardRoute } from "../routes/api/board";
+import { usersRoute } from "./routes/api/users";
+import { gamesRoute } from "./routes/api/games";
+import { boardRoute } from "./routes/api/board";
 import { DbConnection } from "./dal/db-connection.js";
 
 const app = express();
@@ -21,7 +19,6 @@ app.use("*", (req, _, next) => {
 //all stylesheets and scripts from the frontend
 app.use(express.static("./src/frontend", { extensions: ["html"] }));
 
-]
 // login page
 app.get("/login", function (_, res) {
   res.sendFile("login.html", {
@@ -56,11 +53,9 @@ app.get("/game/*", function (_, res) {
 });
 
 // backend routes
-app.use('/', boardRoute);
-app.use('/', usersRoute);
-app.use('/', gamesRoute);
-
-
+app.use("/", boardRoute);
+app.use("/", usersRoute);
+app.use("/", gamesRoute);
 
 // DELETE THIS
 app.get("/test", async (_, res) => {
