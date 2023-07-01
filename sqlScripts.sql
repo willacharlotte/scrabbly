@@ -32,32 +32,10 @@ CREATE TABLE Game
 );
 GO
 
--- --get users--
--- SELECT *
--- FROM Player
+--add Player for testing purposes-
+-- INSERT INTO Player
+--     (username, token, playerPassword)
+-- VALUES
+--     ('hello', 'asdf', 'asdf')
+-- GO
 
--- -- get userByEmail --
--- SELECT *
--- FROM Player
--- WHERE email = @email
-
---registerNewUser--
-INSERT INTO Player
-    (username, token, playerPassword)
-VALUES
-    ('hello', 'asdf', 'asdf')
-GO
-
--- -- addNewGame--
--- INSERT INTO Game
---     (playerId, gameState)
--- SELECT playerId, @gameState
--- FROM Player
--- WHERE email = @email;
-
-
--- --getUser with the game they're associate with --
--- SELECT p.firstname, p.lastname, p.email, g.gameState
--- FROM Player p
---     Inner join Game g
---     ON p.playerId = g.playerId;
