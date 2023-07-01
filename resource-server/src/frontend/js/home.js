@@ -15,7 +15,7 @@ const loadGame = (gameID) => {
 };
 
 
-// const GAMES = await getGames();//TODO: uncomment
+// const GAMES = await getGames();//TODO: uncomment fetch, remove sample data
 const GAMES = [
   {
     id: 0,
@@ -79,8 +79,6 @@ const GAMES = [
     }
   },
 ];
-
-console.log(GAMES);
 
 for (const index in GAMES) {
   const gameItem = document.createElement('li');

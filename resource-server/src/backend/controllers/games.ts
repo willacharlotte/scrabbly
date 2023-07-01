@@ -21,7 +21,6 @@ export const getGame = (req: Request, res: Response) => {
 };
 
 export const postGame = (req: Request, res: Response) => {
-  console.log(req.body);
   const users: User[] = Users.getUsersFromBodyUsers(req.body);
   const game = Games.postNewGame(users);
 
