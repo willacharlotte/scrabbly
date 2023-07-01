@@ -17,40 +17,27 @@ export async function getGame(id) {
   return await fetchFromBackend(`/games/${id}`);
 }
 
-//TODO: get user token
-export async function postGame(token) {
+//TODO: get user token?
+export async function postGame() {
   const response = await fetch('/games', {
     method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      token,
-    }),
   });
 
   const responseJson = await response.json();
   return responseJson;
 }
 
-//TODO: replace example data
-export async function putMove(id) {
-  const response = await fetch(`/games/${id}/move`, {
+export async function putMove(gameID, turnNumber, wordScore, placedTiles) {
+  const response = await fetch(`/games/${gameID}/move`, {
     method: "PUT",
     headers: {
         "Content-Type": "application/json",
     },
     body: JSON.stringify(
       {
-        turn: 3,//needed?
-        score: 5,
-        placedTiles: [
-          {
-            letter: 'a',
-            location: 165,
-            playerOne: true//needed?
-          }
-        ]
+        turn: turnNumber,
+        score: wordScore,
+        placedTiles
     }),
   });
 

@@ -12,7 +12,6 @@ const RACK_SIZE = 7;
 const SQUARES = await getSquares();
 const TILES = await getTiles();
 const urlParams = new URLSearchParams(window.location.search);
-const GAME_ID = urlParams.get('id');
 
 //DOM elements
 const board = document.querySelector('.board');
@@ -37,12 +36,12 @@ let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
 let scores = [0, 0];
+let gameID = urlParams.get('id');
 
 //event listeners
 confirmButton.addEventListener('click', () => {
 
   const score = calculateWordScore();
-  // alert(`You scored ${score} points!`);
   if (playerOneTurn) {
     scores[0] += score;
     playerOneScoreLabel.innerText = `Score: ${scores[0]} points`;
@@ -51,11 +50,16 @@ confirmButton.addEventListener('click', () => {
     playerTwoScoreLabel.innerText = `Score: ${scores[1]} points`;
   }
 
-  //TODO: putMove
+  const placedTiles = [];
 
   for (const index in placingBoardCells) {
-    placingBoardCells[index].cell.classList.remove('placing');
+    placedTiles.push({
+      letter: placingBoardCells[index].cell.lastChild.innerText,
+      location: placingBoardCells[index].index,
+      playerOne: playerOneTurn,
+    })
 
+    placingBoardCells[index].cell.classList.remove('placing');
     placingTiles[index].classList.remove('placing');
     placingRackCells[index].classList.remove('inactive');
     placingTiles[index].innerText = getRandomTile();
@@ -64,6 +68,9 @@ confirmButton.addEventListener('click', () => {
   if (selectedRackCellIndex !== -1) {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
+
+  //TODO: make sure correct GAME_ID if new game
+  putMove(gameID, turnCounter, score, placedTiles);
 
   placingBoardCells.length = 0;
   placingRackCells.length = 0;
@@ -271,7 +278,7 @@ const initRacks = () => {
 };
 
 //set up game
-if (!!GAME_ID) {
+if (!!gameID) {
 
   //load game
 
@@ -286,5 +293,6 @@ if (!!GAME_ID) {
   initBoard();
   initRacks();
 
-  //TODO: postGame
+  const newGame = await postGame();
+  //TODO: update gameID
 }
