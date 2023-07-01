@@ -8,6 +8,7 @@
     "install:resource": "npm install --prefix ./resource-server",
     "start:identity": "cd ./identity-server && npm run start",
     "start:resource": "cd ./resource-server && npm run start",
+    "build:resource": "cd ./resource-server && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

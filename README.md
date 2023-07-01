@@ -13,15 +13,17 @@
 
 ## Setup
 
-- run `npm install && npm run install:identity && npm run install:resource` to install dependencies
-- connect to a MSSQL instance and run `src/db/dbScripts.sql` to create database and tables
+- run `npm run install:identity && npm run install:resource` to install dependencies
+- connect to a MSSQL instance and run `src/db/create-db.sql` to create database and tables
 - run `cp .env.example .env` to create env
 - populate `.env` variables with relevant values
 
 ## Running
 
-- backend:
-  - run `npm run build` then `npm run start` in terminal to start the backend
+- identity-server:
+  - run `npm run start:identity` in terminal to start the identity server
+- resource-server:
+  - run `npm run build:resource` then `npm run start:resource` in terminal to start the resource-server
 - frontend:
   - open http://localhost:4000
 
