@@ -31,8 +31,6 @@ app.use("/", exchangeCredentialsRoute);
 app.use("/", authenticationRoute);
 
 // app.use(express.json());
-app.locals.store = new Level("./store", { valueEncoding: "json" });
-// app.locals.ttl = ttl(app.locals.store);
 
 // backend routes
 app.use(verifyToken); //all routes after this are secured by middleware

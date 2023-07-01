@@ -26,7 +26,6 @@ async function getIdentityForUsernamePasswordCredentials(
     return response.sendStatus(400);
   }
   // We're going to validate our password here and then return the associated identity
-  // const store = request.app.locals.store;
   const username = request.body.username.trim();
 
   const userInfo = await getPlayer(username);
