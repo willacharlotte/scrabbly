@@ -1,15 +1,23 @@
 import { Request, Response } from "express";
 import { Games, Users } from "../dal";
-import { Move, User } from "../types";
 
-export const getGames = (_: Request, res: Response) => {
-  res.end(JSON.stringify(Games.getGames()));
+export const getGamesByPlayer = async (req: Request, res: Response) => {
+  try {
+    const playerId = await Users.getPlayerIdByUsername(req.params.username);
+    res.end(JSON.stringify(await Games.getGamesByPlayer(playerId)));
+  } catch (e) {
+    let message = "";
+    if (e instanceof Error) message = e.message;
+
+    res.status(400);
+    res.end(message);
+  }
 };
 
-export const getGame = (req: Request, res: Response) => {
-  const gameId = req.params.id;
+export const postGame = async (req: Request, res: Response) => {
   try {
-    const game = Games.getGameById(Number(gameId));
+    const playerId = await Users.getPlayerIdByUsername(req.body.username);
+    const game = await Games.postNewGame(playerId);
     res.end(JSON.stringify(game));
   } catch (e) {
     let message = "";
@@ -20,34 +28,16 @@ export const getGame = (req: Request, res: Response) => {
   }
 };
 
-export const postGame = (req: Request, res: Response) => {
-  console.log(req.body);
-  const users: User[] = Users.getUsersFromBodyUsers(req.body);
-  const game = Games.postNewGame(users);
-
-  res.end(JSON.stringify(game));
-};
-
-export const putMove = (req: Request, res: Response) => {
-  const gameId = req.params.id;
-  const move: Move = req.body;
+export const putGame = async (req: Request, res: Response) => {
   try {
-    const game = Games.putMoveInGame(Number(gameId), move);
-    res.end(JSON.stringify(game));
-  } catch (e) {
-    let message = "";
-    if (e instanceof Error) message = e.message;
+    const gameId = req.params.id;
+    const success = await Games.putGame({
+      gameId: gameId,
+      ...req.body,
+    });
 
-    res.status(400);
-    res.end(message);
-  }
-};
-
-export const deleteGame = (req: Request, res: Response) => {
-  const gameId = req.params.id;
-  try {
-    Games.deleteGame(Number(gameId));
-    res.end();
+    if (success) res.end("Success");
+    else throw new Error("More than one row affected");
   } catch (e) {
     let message = "";
     if (e instanceof Error) message = e.message;
