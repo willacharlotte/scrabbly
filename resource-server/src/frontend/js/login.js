@@ -24,6 +24,7 @@ const login = async (user, pass) => {
       const body = await res.json();
       window.sessionStorage.token = body.token;
       window.sessionStorage.tokenExpiry = body.expiresAt;
+      window.sessionStorage.username = user;
       setTimeout(() => {
         window.location.href = "/home";
       }, 1000);
