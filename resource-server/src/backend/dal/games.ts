@@ -1,30 +1,30 @@
-import { Int } from "mssql";
+import { Int, VarChar } from "mssql";
 import { Game } from "../types";
 import { DbConnection } from "./db-connection";
 
 export namespace Games {
-  export const getGamesByPlayer = async (playerId: number) => {
+  export const getGamesByPlayer = async (playerId: string) => {
     const result = await DbConnection.runQuery(
-      `SELECT [gameId]
-      ,[playerId]
-      ,[playerOneScore]
-      ,[playerTwoScore]
-      ,[moveCount]
+      `SELECT [game_id]
+      ,[player_id]
+      ,[player_one_score]
+      ,[player_two_score]
+      ,[move_count]
       FROM [dbo].[Game]
-      WHERE [playerId] = @playerId`,
-      { queryParam: "playerId", paramType: Int(), value: playerId }
+      WHERE [player_id] = @player_id`,
+      { queryParam: "player_id", paramType: VarChar(36), value: playerId }
     );
 
     return result.recordset as Game[];
   };
 
-  export const postNewGame = async (playerId: number): Promise<Game> => {
+  export const postNewGame = async (playerId: string): Promise<Game> => {
     const result = await DbConnection.runQuery(
       `INSERT INTO Game
-      (playerId, playerOneScore, playerTwoScore, moveCount)
-      VALUES (@playerId, 0, 0, 0);
+      (player_id, player_one_score, player_two_score, move_count)
+      VALUES (@player_id, 0, 0, 0);
       SELECT SCOPE_IDENTITY() AS id;`,
-      { queryParam: "playerId", paramType: Int(), value: playerId }
+      { queryParam: "player_id", paramType: VarChar(36), value: playerId }
     );
 
     return {
@@ -39,23 +39,23 @@ export namespace Games {
   export const putGame = async (game: Game) => {
     const result = await DbConnection.runQuery(
       `UPDATE [dbo].[Game]
-      SET playerOneScore = @playerOneScore,
-      playerTwoScore = @playerTwoScore,
-      moveCount = @moveCount
-      WHERE gameId = @gameId
+      SET player_one_score = @player_one_score,
+      player_two_score = @player_two_score,
+      move_count = @move_count
+      WHERE game_id = @game_id
       `,
       {
-        queryParam: "playerOneScore",
+        queryParam: "player_one_score",
         paramType: Int(),
         value: game.playerOneScore,
       },
       {
-        queryParam: "playerTwoScore",
+        queryParam: "player_two_score",
         paramType: Int(),
         value: game.playerTwoScore,
       },
-      { queryParam: "moveCount", paramType: Int(), value: game.moveCount },
-      { queryParam: "gameId", paramType: Int(), value: game.gameId }
+      { queryParam: "move_count", paramType: Int(), value: game.moveCount },
+      { queryParam: "game_id", paramType: Int(), value: game.gameId }
     );
 
     return result.rowsAffected[0] === 1;

@@ -1,6 +1,6 @@
 export type Game = {
   gameId?: number;
-  playerId?: number;
+  playerId?: string;
   playerOneScore: number;
   playerTwoScore: number;
   moveCount: number;
