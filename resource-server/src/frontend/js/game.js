@@ -36,7 +36,8 @@ let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
 let scores = [0, 0];
-let gameID = urlParams.get('id');
+// let gameID = urlParams.get('id');
+let gameID = 0;
 
 //event listeners
 confirmButton.addEventListener('click', () => {
@@ -69,7 +70,7 @@ confirmButton.addEventListener('click', () => {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 
-  putMove(gameID, playerOneTurn, turnCounter, score, placedTiles);
+  putMove(gameID, turnCounter, scores);
 
   placingBoardCells.length = 0;
   placingRackCells.length = 0;
@@ -321,27 +322,28 @@ const initBag = (bag) => {
 };
 
 //set up game
-if (!!gameID) {
+// if (!!gameID) {
 
-  //load game
+//   //load game
 
-  const pastGame = await getGame(gameID);
-  const gameState = pastGame.gameState;
-  turnCounter = gameState.turn + 1;//game state stores completed moves, turnCounter stores current move
-  playerOneTurn = turnCounter % 2 === 0;
-  scores[0] = gameState.scores.playerOne;
-  scores[1] = gameState.scores.playerTwo;
+//   const pastGame = await getGame(gameID);
+//   const gameState = pastGame.gameState;
+//   turnCounter = gameState.turn + 1;//game state stores completed moves, turnCounter stores current move
+//   playerOneTurn = turnCounter % 2 === 0;
+//   scores[0] = gameState.scores.playerOne;
+//   scores[1] = gameState.scores.playerTwo;
 
-  initBag(gameState.bag);
-  loadRacks(gameState.racks.playerOne, gameState.racks.playerTwo);
-  initBoard(gameState.placedTiles);
-} else {
+//   initBag(gameState.bag);
+//   loadRacks(gameState.racks.playerOne, gameState.racks.playerTwo);
+//   initBoard(gameState.placedTiles);
+// } else {
 
   //create new game
 
   initBoard();
   initRacks();
 
-  const newGame = await postGame();
+  const username = window.sessionStorage.username;
+  const newGame = await postGame(username);
   gameID = newGame.id;
-}
+// }
