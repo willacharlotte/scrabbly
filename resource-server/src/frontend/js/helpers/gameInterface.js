@@ -37,8 +37,8 @@ export async function postGame(username) {
   return responseJson;
 }
 
-export async function putMove(gameID, turnNumber, scores) {
-  const response = await fetch(`/games/${gameID}/move`, {
+export async function putGame(gameID, turnNumber, scores) {
+  const response = await fetch(`/games/${gameID}`, {
     method: "PUT",
     headers: {
         "Content-Type": "application/json",

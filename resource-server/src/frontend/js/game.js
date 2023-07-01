@@ -3,7 +3,7 @@ import {
   getTiles,
   getGame,
   postGame,
-  putMove,
+  putGame,
 } from './helpers/gameInterface.js';
 
 //constants
@@ -70,7 +70,7 @@ confirmButton.addEventListener('click', () => {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 
-  putMove(gameID, turnCounter, scores);
+  putGame(gameID, turnCounter, scores);
 
   placingBoardCells.length = 0;
   placingRackCells.length = 0;
@@ -345,5 +345,5 @@ const initBag = (bag) => {
 
   const username = window.sessionStorage.username;
   const newGame = await postGame(username);
-  gameID = newGame.id;
+  gameID = newGame.gameId;
 // }
