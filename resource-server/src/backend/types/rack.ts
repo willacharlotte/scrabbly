@@ -1,3 +1,1 @@
-export type Rack = {
-  tiles: string[];
-};
+export type Rack = string[];

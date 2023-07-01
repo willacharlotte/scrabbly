@@ -2,6 +2,8 @@ import {
   getSquares,
   getTiles,
   getGame,
+  postGame,
+  putMove,
 } from './helpers/gameInterface.js';
 
 //constants
@@ -10,7 +12,6 @@ const RACK_SIZE = 7;
 const SQUARES = await getSquares();
 const TILES = await getTiles();
 const urlParams = new URLSearchParams(window.location.search);
-const GAME_ID = urlParams.get('id');
 
 //DOM elements
 const board = document.querySelector('.board');
@@ -30,16 +31,17 @@ const playerTwoRackCells = [];
 const playerTwoRackTiles = [];
 
 //state trackers
+let turnCounter = 1;
 let playerOneTurn = true;
 let numTilesRemaining = 100;
 let selectedRackCellIndex = -1;
 let scores = [0, 0];
+let gameID = urlParams.get('id');
 
 //event listeners
 confirmButton.addEventListener('click', () => {
 
   const score = calculateWordScore();
-  // alert(`You scored ${score} points!`);
   if (playerOneTurn) {
     scores[0] += score;
     playerOneScoreLabel.innerText = `Score: ${scores[0]} points`;
@@ -48,9 +50,16 @@ confirmButton.addEventListener('click', () => {
     playerTwoScoreLabel.innerText = `Score: ${scores[1]} points`;
   }
 
-  for (const index in placingBoardCells) {
-    placingBoardCells[index].classList.remove('placing');
+  const placedTiles = [];
 
+  for (const index in placingBoardCells) {
+    placedTiles.push({
+      letter: placingBoardCells[index].cell.lastChild.innerText,
+      location: placingBoardCells[index].index,
+      playerOne: playerOneTurn,
+    })
+
+    placingBoardCells[index].cell.classList.remove('placing');
     placingTiles[index].classList.remove('placing');
     placingRackCells[index].classList.remove('inactive');
     placingTiles[index].innerText = getRandomTile();
@@ -60,17 +69,21 @@ confirmButton.addEventListener('click', () => {
     playerOneTurn ? playerOneRackCells[selectedRackCellIndex].classList.remove('selected') : playerTwoRackCells[selectedRackCellIndex].classList.remove('selected');
   }
 
+  //TODO: make sure correct GAME_ID if new game
+  putMove(gameID, turnCounter, score, placedTiles);
+
   placingBoardCells.length = 0;
   placingRackCells.length = 0;
   placingTiles.length = 0;
   playerOneTurn = !playerOneTurn;
+  turnCounter += 1;
 });
 
 clearButton.addEventListener('click', () => {
 
   for (const index in placingBoardCells) {
-    placingBoardCells[index].classList.remove('placing', 'player-one', 'player-two');
-    placingBoardCells[index].removeChild(placingBoardCells[index].lastChild);
+    placingBoardCells[index].cell.classList.remove('placing', 'player-one', 'player-two');
+    placingBoardCells[index].cell.removeChild(placingBoardCells[index].cell.lastChild);
 
     placingTiles[index].classList.remove('placing');
     placingRackCells[index].classList.remove('inactive');
@@ -100,9 +113,9 @@ const calculateTileScore = (letter, multiplier) => {
 const calculateWordScore = () => {
   let score = 0;
   let multiplier = 1;
-  for (const cell of placingBoardCells) {
+  for (const index in placingBoardCells) {
     let cellType = '';
-    for (const child of cell.children) {
+    for (const child of placingBoardCells[index].cell.children) {
 
       if (child.classList.contains('type-label')) {
 
@@ -155,7 +168,7 @@ const removeTileFromRack = (index) => {
   }
 };
 
-const moveTileToBoard = (td) => {
+const moveTileToBoard = (td, index) => {
   if (selectedRackCellIndex === -1) {
     return;
   }
@@ -164,7 +177,10 @@ const moveTileToBoard = (td) => {
   tile.innerText = playerOneTurn ? playerOneRackTiles[selectedRackCellIndex].innerText : playerTwoRackTiles[selectedRackCellIndex].innerText;
   td.appendChild(tile);
   td.classList.add('placing', playerOneTurn ? 'player-one' : 'player-two');
-  placingBoardCells.push(td);
+  placingBoardCells.push({
+    index,
+    cell: td,
+  });
 
   removeTileFromRack(selectedRackCellIndex);
   selectedRackCellIndex = -1;
@@ -247,7 +263,7 @@ const initBoard = () => {
       }
 
       boardCell.classList.add('board-cell', formatType(type));
-      boardCell.addEventListener('click', () => moveTileToBoard(boardCell));
+      boardCell.addEventListener('click', () => moveTileToBoard(boardCell, row * BOARD_SIZE + col));
       boardRow.appendChild(boardCell);
     }
     board.appendChild(boardRow);
@@ -262,11 +278,21 @@ const initRacks = () => {
 };
 
 //set up game
-if (!!GAME_ID) {
+if (!!gameID) {
+
+  //load game
+
+  //TODO: getGame
 
   initBoard();
   initRacks();
 } else {
+
+  //create new game
+
   initBoard();
   initRacks();
+
+  const newGame = await postGame();
+  //TODO: update gameID
 }

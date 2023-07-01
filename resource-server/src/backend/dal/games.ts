@@ -1,70 +1,63 @@
-import { Game, Move, User } from "../types";
-import { createNewGame, newPlacedTilesFromMove, updateRack } from "../utils";
+import { Int } from "mssql";
+import { Game } from "../types";
+import { DbConnection } from "./db-connection";
 
 export namespace Games {
-  // TODO put this in db
-  const games: Game[] = [];
-
-  const getIndexById = (id: number) => {
-    return games.findIndex((game) => game.id === id);
-  };
-
-  const getGreatestId = () => {
-    return games
-      .map((game) => game.id)
-      .reduce((prev, next) => (prev > next ? prev : next), 0);
-  };
-
-  export const getGames = () => {
-    return games;
-  };
-
-  export const getGameById = (id: number) => {
-    const gameIndex = getIndexById(id);
-    if (gameIndex === -1)
-      throw new Error("game with specified id does not exist");
-
-    return games[gameIndex];
-  };
-
-  export const postNewGame = (users: User[]): Game => {
-    const id = getGreatestId() + 1;
-    const newGame = createNewGame(users, id);
-
-    games.push(newGame);
-
-    return newGame;
-  };
-
-  export const putMoveInGame = (id: number, move: Move) => {
-    const game = getGameById(id);
-
-    const newPlacedTiles = newPlacedTilesFromMove(move);
-
-    if (
-      move.firstLetterLocation.col.toUpperCase() ===
-      move.firstLetterLocation.col
-    )
-      throw new Error("firstLetterLocation needs to have a lower case col");
-
-    game.players[move.playerNumber].rack = updateRack(
-      newPlacedTiles,
-      game.players[move.playerNumber].rack,
-      game.tiles
+  export const getGamesByPlayer = async (playerId: number) => {
+    const result = await DbConnection.runQuery(
+      `SELECT [gameId]
+      ,[playerId]
+      ,[playerOneScore]
+      ,[playerTwoScore]
+      ,[moveCount]
+      FROM [dbo].[Game]
+      WHERE [playerId] = @playerId`,
+      { queryParam: "playerId", paramType: Int(), value: playerId }
     );
 
-    game.moves.push(move);
-    game.placedTiles.push(...newPlacedTiles);
-
-    return game;
+    return result.recordset as Game[];
   };
 
-  export const deleteGame = (id: number) => {
-    const gameIndex = getIndexById(id);
-    if (gameIndex === -1)
-      throw new Error("game with specified id does not exist");
+  export const postNewGame = async (playerId: number): Promise<Game> => {
+    const result = await DbConnection.runQuery(
+      `INSERT INTO Game
+      (playerId, playerOneScore, playerTwoScore, moveCount)
+      VALUES (@playerId, 0, 0, 0);
+      SELECT SCOPE_IDENTITY() AS id;`,
+      { queryParam: "playerId", paramType: Int(), value: playerId }
+    );
 
-    games.splice(gameIndex, 1);
-    return true;
+    return {
+      gameId: result.recordset[0].id,
+      playerId: playerId,
+      playerOneScore: 0,
+      playerTwoScore: 0,
+      moveCount: 0,
+    };
+  };
+
+  export const putGame = async (game: Game) => {
+    const result = await DbConnection.runQuery(
+      `UPDATE [dbo].[Game]
+      SET playerOneScore = @playerOneScore,
+      playerTwoScore = @playerTwoScore,
+      moveCount = @moveCount
+      WHERE gameId = @gameId
+      `,
+      {
+        queryParam: "playerOneScore",
+        paramType: Int(),
+        value: game.playerOneScore,
+      },
+      {
+        queryParam: "playerTwoScore",
+        paramType: Int(),
+        value: game.playerTwoScore,
+      },
+      { queryParam: "moveCount", paramType: Int(), value: game.moveCount },
+      { queryParam: "gameId", paramType: Int(), value: game.gameId }
+    );
+
+    return result.rowsAffected[0] === 1;
   };
 }
