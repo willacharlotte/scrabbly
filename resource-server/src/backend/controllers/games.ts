@@ -10,7 +10,7 @@ export const getGamesByPlayer = async (req: Request, res: Response) => {
     if (e instanceof Error) message = e.message;
 
     res.status(400);
-    res.end(message);
+    res.end(JSON.stringify(message));
   }
 };
 
@@ -24,7 +24,7 @@ export const postGame = async (req: Request, res: Response) => {
     if (e instanceof Error) message = e.message;
 
     res.status(400);
-    res.end(message);
+    res.end(JSON.stringify(message));
   }
 };
 
@@ -43,6 +43,6 @@ export const putGame = async (req: Request, res: Response) => {
     if (e instanceof Error) message = e.message;
 
     res.status(400);
-    res.end(message);
+    res.end(JSON.stringify(message));
   }
 };
