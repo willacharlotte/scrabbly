@@ -1,1 +1,0 @@
-export type Rack = string[];
