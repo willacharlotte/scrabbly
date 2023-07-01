@@ -13,6 +13,10 @@ export async function getSquares() {
   return await fetchFromBackend('/squares');
 }
 
+export async function getGames() {
+  return await fetchFromBackend('/games');
+}
+
 export async function getGame(id) {
   return await fetchFromBackend(`/games/${id}`);
 }
