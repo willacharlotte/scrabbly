@@ -2,6 +2,7 @@ import express from "express";
 import argon from "argon2";
 import UUID from "pure-uuid";
 import { Request, Response, NextFunction } from "express";
+import { registerUser, userExists } from "./database";
 
 async function handleCreateCredentialsUsernamePassword(request: Request, response: Response) {
     if (typeof request.body.username !== "string" || request.body.username.length < 1) {
@@ -13,28 +14,29 @@ async function handleCreateCredentialsUsernamePassword(request: Request, respons
     
     const hash = await argon.hash(request.body.password);
     const username = request.body.username.trim();
-    const lowerCaseUsername = username.toLowerCase();
-    const credentialsKey = `credentials:${lowerCaseUsername}`;
-    const store = request.app.locals.store;
+    // const lowerCaseUsername = username.toLowerCase();
+    // const credentialsKey = `credentials:${lowerCaseUsername}`;
+    // const store = request.app.locals.store;
 
     // ensure username doesn't exist
-    if (await store.get(credentialsKey).catch(() => undefined)) {
+    if (await userExists(request.body.username)) {
         return response.sendStatus(409);
     }
 
     // Create identifier scoped to our host
     const uuid = new UUID(4).format();
-    const identity = {
-    id: uuid,
-    primaryUsername: username
-    };
+    await registerUser(uuid, username, hash);
+    // const identity = {
+    // id: uuid,
+    // primaryUsername: username
+    // };
     // Store our identity
-    await store.put(`identity:${uuid}`, JSON.stringify(identity));
+    // await store.put(`identity:${uuid}`, JSON.stringify(identity));
     // Store our new credentials
-    await store.put(credentialsKey, JSON.stringify({
-        hash,
-    identity: uuid
-    }));
+    // await store.put(credentialsKey, JSON.stringify({
+    //     hash,
+    // identity: uuid
+    // }));
 
     return response.status(201).json({
         id: uuid

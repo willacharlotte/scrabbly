@@ -5,6 +5,7 @@ import JSONWebToken from "jsonwebtoken";
 import ms from "ms";
 import UUID from "pure-uuid";
 import { Request, Response, NextFunction } from "express";
+import { getPlayer, saveToken } from "./database";
 
 async function getIdentityForUsernamePasswordCredentials(
   request: Request,
@@ -25,28 +26,24 @@ async function getIdentityForUsernamePasswordCredentials(
     return response.sendStatus(400);
   }
   // We're going to validate our password here and then return the associated identity
-  const store = request.app.locals.store;
+  // const store = request.app.locals.store;
   const username = request.body.username.trim();
-  const lowerCaseUsername = username.toLowerCase();
-  const credentialsKey = `credentials:${lowerCaseUsername}`;
-  const passwordInformation = await store
-    .get(credentialsKey)
-    .catch(() => undefined);
-  const passwordObj = JSON.parse(passwordInformation);
 
-  if (!(passwordInformation && passwordObj.hash && passwordObj.identity)) {
+  const userInfo = await getPlayer(username);
+
+  if (!(userInfo && userInfo[0].hashPassword && userInfo[0].player_id)) {
     response.sendStatus(401);
 
     // Already handled
     return undefined;
   }
-  const match = await argon.verify(passwordObj.hash, request.body.password);
+  const match = await argon.verify(userInfo[0].hashPassword, request.body.password);
   if (!match) {
     response.sendStatus(401);
     // Already handled
     return undefined;
   }
-  return passwordObj.identity;
+  return userInfo[0].player_id;
 }
 
 async function getIdentityForCredentials(request: Request, response: Response) {
@@ -108,21 +105,10 @@ async function generateBearerTokenCredentials(
       (error, token) => (error ? reject(error) : resolve(token))
     )
   );
-  const store = request.app.locals.store;
 
-  await store.put(
-    `jwt-key:${keyid}`,
-    JSON.stringify({
-      algorithm,
-      publicKey,
-    })
-  );
 
-  await new Promise<void>((resolve, reject) =>
-    request.app.locals.store.put(`jwt-key:${keyid}`, expiryInMS, (error: any) =>
-      error ? reject(error) : resolve()
-    )
-  );
+  await saveToken(identity, keyid, algorithm, publicKey, expiresAtInMS )
+ 
   response.json({
     token,
     tokenType: "bearer",

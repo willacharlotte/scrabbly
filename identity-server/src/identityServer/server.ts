@@ -10,6 +10,7 @@ import { authenticationRoute } from "../routes/api/authentication";
 import verifyToken from "./middleware/verify-token";
 import { corsOptions } from "../config/corsOptions";
 import cors from 'cors';
+import { userExists } from "./handlers/database";
 
 const app = express();
 app.use(cors(corsOptions));
@@ -21,7 +22,6 @@ const port = 8080;
 // middleware for cookies
 // app.use(cookieParser());
 
-// serve static files
 
 // register
 app.use("/", registerRoute);

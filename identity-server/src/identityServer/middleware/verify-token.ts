@@ -1,6 +1,7 @@
 import JSONWebToken, { VerifyErrors } from "jsonwebtoken";
 import bearerToken from "express-bearer-token";
 import { Request, Response, NextFunction} from "express";
+import { getToken } from "../handlers/database";
 
 
 declare module 'express' {
@@ -19,15 +20,14 @@ async function verify(request: Request, response: Response, next: NextFunction) 
   const decoded = JSONWebToken.decode(request.token, { complete: true });
   
   if (!decoded?.header.kid) {
-    // No kid, no pass, we didn't generate this
+    // No kid, no pass, we didn't generate this token
       return response.sendStatus(401); 
   }
-  const store = request.app.locals.store;
-//   access token secrete
-  const key = await store.get(`jwt-key:${decoded.header.kid}`)
-  const keyInformation = JSON.parse(key)
 
-  if (!(keyInformation && keyInformation.algorithm && keyInformation.publicKey)) {
+  const key: any = await getToken(decoded.header.kid);
+  const keyInformation = key[0];
+
+  if (!(keyInformation && keyInformation.algo && keyInformation.publicKey)) {
        // No key information to compare to, will be true if using local storage should be fine when using db
       return response.sendStatus(401);
   }
@@ -38,7 +38,7 @@ async function verify(request: Request, response: Response, next: NextFunction) 
             {
                 algorithms: [
                   // Only allow the one that was stored with the key 
-                  keyInformation.algorithm
+                  keyInformation.algo
                 ]
             },
       (error: VerifyErrors | null, verified: any) => resolve(error ? undefined : verified)
@@ -46,7 +46,7 @@ async function verify(request: Request, response: Response, next: NextFunction) 
   );
   
   if (!verified) {
-       // Not valid 
+       // Not a valid token
       return response.sendStatus(403); //invalid token
   }
   // Add our identity to the request
