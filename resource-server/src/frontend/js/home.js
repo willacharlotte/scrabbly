@@ -10,22 +10,21 @@ newGameButton.addEventListener('click', () => {
 });
 
 const username = window.sessionStorage.username;
-//TODO: uncomment fetch, remove sample data
-// const GAMES = await getGames(username);
-const GAMES = [
-  {
-    id: 0,
-    playerOneScore: 10,
-    playerTwoScore: 25,
-    moveCount: 12,
-  },
-  {
-    id: 1 ,
-    playerOneScore: 10,
-    playerTwoScore: 25,
-    moveCount: 12,
-  }
-];
+const GAMES = await getGames(username);
+// const GAMES = [
+//   {
+//     id: 0,
+//     playerOneScore: 10,
+//     playerTwoScore: 25,
+//     moveCount: 12,
+//   },
+//   {
+//     id: 1 ,
+//     playerOneScore: 10,
+//     playerTwoScore: 25,
+//     moveCount: 12,
+//   }
+// ];
 
 for (const index in GAMES) {
   const gameItem = document.createElement('li');
