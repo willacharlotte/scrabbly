@@ -3,7 +3,6 @@ import { getGames } from "./helpers/gameInterface.js";
 //DOM elements
 const gamesList = document.querySelector('.games-list');
 const newGameButton = document.getElementById('new-game-button');
-const loadGameButton = document.getElementById('load-game-button');
 
 //event listeners
 newGameButton.addEventListener('click', () => {
