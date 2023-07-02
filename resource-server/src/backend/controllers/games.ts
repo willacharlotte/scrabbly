@@ -36,7 +36,7 @@ export const putGame = async (req: Request, res: Response) => {
       ...req.body,
     });
 
-    if (success) res.end("Success");
+    if (success) res.end(JSON.stringify("Success"));
     else throw new Error("More than one row affected");
   } catch (e) {
     let message = "";

@@ -45,7 +45,7 @@ export async function putGame(gameID, turnNumber, scores) {
     },
     body: JSON.stringify(
       {
-        turn: turnNumber,
+        moveCount: turnNumber,
         playerOneScore: scores[0],
         playerTwoScore: scores[1],
     }),
