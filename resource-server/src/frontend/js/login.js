@@ -1,6 +1,7 @@
 import {
   createCredentials,
   exchangeCredentials,
+  validateToken,
 } from "./helpers/identity-access.js";
 
 const loginForm = document.getElementById("login-form");
@@ -25,9 +26,10 @@ const login = async (user, pass) => {
       window.sessionStorage.token = body.token;
       window.sessionStorage.tokenExpiry = body.expiresAt;
       window.sessionStorage.username = user;
-      setTimeout(() => {
+      const isValidToken = await validateToken(window.sessionStorage.token); 
+      if (isValidToken.status == 200){
         window.location.href = "/home";
-      }, 1000);
+      }
       break;
     case 401:
       badLogin.classList.remove("hidden");

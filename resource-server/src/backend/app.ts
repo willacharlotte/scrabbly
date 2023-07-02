@@ -9,13 +9,6 @@ const app = express();
 const port = 4000;
 
 app.use(express.json());
-// app.use(cors(corsOptions));
-
-//middleware to log all methods to console - only for testing purposes
-app.use("*", (req, _, next) => {
-  console.log(`${req.method} on ${req.originalUrl}`);
-  next();
-});
 
 //all stylesheets and scripts from the frontend
 app.use(express.static("./src/frontend", { extensions: ["html"] }));
@@ -57,19 +50,12 @@ app.get("/game/*", function (_, res) {
 app.use("/", boardRoute);
 app.use("/", gamesRoute);
 
-//TODO: remove once methods on frontend are moved to backend
 app.get("/identity_server", async (_, res) => {
   res.end(
     JSON.stringify(process.env.IDENTITY_SERVER || "http://localhost:8080")
   );
 });
 
-// DELETE THIS
-app.get("/test", async (_, res) => {
-  res.end(
-    JSON.stringify(await DbConnection.runQuery(`SELECT * FROM dbo.Player`))
-  );
-});
 
 //any other routes go here
 app.get("*", function (_, res) {

@@ -27,3 +27,17 @@ export const exchangeCredentials = async (data) => {
   };
   return await fetch(IDENTITY_SERVER + "/exchange-credentials", options);
 };
+
+
+export const validateToken = async (data) => {
+  const bearer = 'Bearer'.concat(" ", data);
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": bearer,
+      "Access-Control-Expose-Headers": "*"
+    },
+  };
+  return await fetch(IDENTITY_SERVER + "/check-authentication", options);
+};
