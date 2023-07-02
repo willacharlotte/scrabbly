@@ -30,7 +30,7 @@ async function getIdentityForUsernamePasswordCredentials(
 
   const userInfo = await getPlayer(username);
 
-  if (!(userInfo && userInfo[0].hashPassword && userInfo[0].player_id)) {
+  if (!(userInfo && userInfo[0]?.hashPassword && userInfo[0]?.player_id)) {
     response.sendStatus(401);
 
     // Already handled
@@ -107,7 +107,7 @@ async function generateBearerTokenCredentials(
 
 
   await saveToken(identity, keyid, algorithm, publicKey, expiresAtInMS )
- 
+
   response.json({
     token,
     tokenType: "bearer",
